@@ -2,3 +2,5 @@
 *.iml
 **/target/
 events/
+*.jar
+h2-license.txt
