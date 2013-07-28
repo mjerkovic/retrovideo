@@ -8,3 +8,11 @@ function ContactsController($scope, $http) {
     }
 
 }
+
+function VideoController($scope, $http) {
+
+    $scope.submit = function() {
+        alert("Video Registered - " + $scope.data.title);
+    }
+
+}
