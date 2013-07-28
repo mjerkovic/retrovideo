@@ -1,5 +1,5 @@
 <ul id="videoList">
     <li ng-repeat="video in videos|orderBy:'videoId'">
-        {{ video.videoId }} {{ video.title }}
+        {{ video.videoId }} {{ video.title }} {{ video.year }} {{ video.duration }}
     </li>
 </ul>

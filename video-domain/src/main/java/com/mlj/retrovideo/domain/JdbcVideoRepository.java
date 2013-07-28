@@ -16,15 +16,17 @@ public class JdbcVideoRepository {
     }
 
     public void addVideo(VideoAddedEvent event) {
-        jdbcTemplate.update("insert into videos (videoId, title) values (?, ?)",
-                event.getVideoId(), event.getTitle());
+        jdbcTemplate.update("insert into videos (videoId, title, year, duration) values (?, ?, ?, ?)",
+                event.getVideoId(), event.getTitle(), event.getYear(), event.getDuration());
     }
 
     public VideoView byId(String videoId) {
-        return jdbcTemplate.queryForObject("select videoId, title from videos where videoId=?", new RowMapper<VideoView>() {
+        return jdbcTemplate.queryForObject("select videoId, title, year, duration from videos where videoId=?",
+                new RowMapper<VideoView>() {
             @Override
             public VideoView mapRow(ResultSet resultSet, int i) throws SQLException {
-                return new VideoView(resultSet.getString("videoId"), resultSet.getString("title"));
+                return new VideoView(resultSet.getString("videoId"), resultSet.getString("title"),
+                        resultSet.getInt("year"), resultSet.getInt("duration"));
             }
         }, videoId);
     }
@@ -33,7 +35,8 @@ public class JdbcVideoRepository {
         return jdbcTemplate.query("select * from videos", new RowMapper<VideoView>() {
             @Override
             public VideoView mapRow(ResultSet resultSet, int i) throws SQLException {
-                return new VideoView(resultSet.getString("videoId"), resultSet.getString("title"));
+                return new VideoView(resultSet.getString("videoId"), resultSet.getString("title"),
+                        resultSet.getInt("year"), resultSet.getInt("duration"));
             }
         });
     }

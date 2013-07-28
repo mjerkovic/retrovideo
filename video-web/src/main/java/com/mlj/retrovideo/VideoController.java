@@ -25,7 +25,8 @@ public class VideoController {
     @RequestMapping(method = POST, value = "/perform/addVideo", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public void addVideo(@RequestBody VideoDto videoDto) {
-        commandGateway.send(new AddVideo(videoDto.getVideoId(), videoDto.getTitle()));
+        commandGateway.send(new AddVideo(videoDto.getVideoId(), videoDto.getTitle(), videoDto.getYear(),
+                videoDto.getDuration()));
     }
 
     @RequestMapping(method = GET, value = "/query", produces = "application/json")
