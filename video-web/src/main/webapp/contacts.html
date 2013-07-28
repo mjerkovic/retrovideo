@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <title>Contacts</title>
+    <script src="js/angular.js"></script>
+    <script src="js/controllers.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/contacts.css">
+</head>
+<body ng-controller="ContactsController">
+    <ul>
+        <li ng-repeat="contact in contacts">
+            {{contact.firstName}} {{contact.lastName}}
+        </li>
+    </ul>
+    <br/>
+    <input id="firstName" type="text" ng-model="data.firstName"/>
+    <div class="submitButton" ng-controller="ContactsController"
+            ng-click="postIt">
+        Post
+    </div>
+    <br/>
+    {{ data.firstName }}
+</body>
+</html>

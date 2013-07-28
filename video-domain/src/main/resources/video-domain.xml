@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:axon="http://www.axonframework.org/schema/core"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.axonframework.org/schema/core http://www.axonframework.org/schema/axon-core.xsd">
+
+    <bean id="contactsService" class="com.mlj.contacts.ContactsService"/>
+
+<!--=====================================================================-->
+
+    <axon:command-bus id="commandBus"/>
+    <axon:event-bus id="eventBus"/>
+
+    <axon:event-sourcing-repository id="toDoRepository"
+                                    aggregate-type="com.mlj.todo.ToDoItem"/>
+
+    <axon:aggregate-command-handler id="toDoItemHandler"
+                                    aggregate-type="com.mlj.todo.ToDoItem"
+                                    repository="toDoRepository"
+                                    command-bus="commandBus"/>
+
+    <axon:filesystem-event-store id="eventStore" base-dir="events"/>
+
+    <bean class="org.axonframework.commandhandling.gateway.CommandGatewayFactoryBean">
+        <property name="commandBus" ref="commandBus"/>
+    </bean>
+
+    <axon:annotation-config />
+    <bean class="com.mlj.todo.ToDoEventHandler"/>
+
+</beans>
