@@ -2,6 +2,6 @@ Really basic Contact application
 
 For testing different technologies.
 
-Access the app via http://localhost:8080/contacts.html
+Access the app via http://localhost:8080/video.html
 
-curl -X POST -d "{ title: 'Cujo' }" -H "content-type: application/json" http://localhost:8080
+curl -v -X POST -d '{ "videoId": "123", "title": "Cujo" }' -H 'Content-Type: application/json' http://localhost:8080/perform/addVideo

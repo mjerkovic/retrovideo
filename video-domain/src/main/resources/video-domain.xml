@@ -3,13 +3,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:axon="http://www.axonframework.org/schema/core"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.axonframework.org/schema/core http://www.axonframework.org/schema/axon-core.xsd">
 
-    <bean id="contactsService" class="com.mlj.contacts.ContactsService"/>
-
-<!--=====================================================================-->
-
+    <axon:annotation-config />
     <axon:command-bus id="commandBus"/>
     <axon:event-bus id="eventBus"/>
 
+<!--
     <axon:event-sourcing-repository id="toDoRepository"
                                     aggregate-type="com.mlj.todo.ToDoItem"/>
 
@@ -18,13 +16,22 @@
                                     repository="toDoRepository"
                                     command-bus="commandBus"/>
 
+    <bean class="com.mlj.todo.ToDoEventHandler"/>
+
+-->
+
     <axon:filesystem-event-store id="eventStore" base-dir="events"/>
 
     <bean class="org.axonframework.commandhandling.gateway.CommandGatewayFactoryBean">
         <property name="commandBus" ref="commandBus"/>
     </bean>
 
-    <axon:annotation-config />
-    <bean class="com.mlj.todo.ToDoEventHandler"/>
+    <axon:event-sourcing-repository id="videoRepository"
+                                    aggregate-type="com.mlj.retrovideo.domain.Video"/>
+
+    <axon:aggregate-command-handler id="videoCommandHandler"
+                                    aggregate-type="com.mlj.retrovideo.domain.Video"
+                                    repository="videoRepository"
+                                    command-bus="commandBus"/>
 
 </beans>
