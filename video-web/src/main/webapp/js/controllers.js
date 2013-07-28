@@ -9,10 +9,20 @@ function ContactsController($scope, $http) {
 
 }
 
-function VideoController($scope, $http) {
+function NewVideoCtrl($scope, $http) {
 
     $scope.submit = function() {
-        alert("Video Registered - " + $scope.data.title);
+        $http.post('/perform/addVideo', $scope.data).success(function() {
+
+        });
     }
+
+}
+
+function ListVideosCtrl($scope, $http) {
+
+    $http.get("/query").success(function(data) {
+        $scope.videos = data;
+    });
 
 }

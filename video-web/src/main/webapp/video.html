@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app="retrovideo">
 <head>
     <title>Retro Video</title>
     <script src="js/angular.js"></script>
+    <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/contacts.css">
+    <link rel="stylesheet" type="text/css" href="css/contacts.video.css">
 </head>
-<body ng-controller="VideoController">
-    <form ng-submit="submit()">
-        <input type="text" ng-model="data.title" name="title"/>
-        <input type="submit" id="submit" value="Submit"/>
-    </form>
+<body>
+    <div class="menu">
+        <ul>
+            <li><a href="#/newVideo">New</a></li>
+            <li><a href="#/videos">List</a></li>
+        </ul>
+    </div>
+    <div ng-view></div>
 </body>
 </html>

@@ -12,6 +12,7 @@ public class AddVideoEventHandler {
 
     @EventHandler
     public void handle(VideoAddedEvent event) {
+        System.out.println("event = " + event);
         videoRepository.addVideo(event);
     }
 
