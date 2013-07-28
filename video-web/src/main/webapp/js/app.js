@@ -3,5 +3,5 @@ angular.module('retrovideo', []).
         $routeProvider.
             when('/newVideo', {templateUrl: 'new-video.html',   controller: NewVideoCtrl}).
             when('/videos', {templateUrl: 'list-video.html', controller: ListVideosCtrl}).
-            otherwise({redirectTo: '/newVideo'});
+            otherwise({redirectTo: '/videos'});
     }]);
