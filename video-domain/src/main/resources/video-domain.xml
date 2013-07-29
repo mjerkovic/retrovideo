@@ -52,8 +52,4 @@
         </constructor-arg>
     </bean>
 
-<!--    <bean class="com.mlj.retrovideo.domain.AddVideoEventHandler">
-        <constructor-arg ref="jdbcVideoRepository"/>
-    </bean>-->
-
 </beans>
