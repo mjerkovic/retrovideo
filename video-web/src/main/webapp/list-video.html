@@ -1,5 +1,18 @@
-<ul id="videoList">
-    <li ng-repeat="video in videos|orderBy:'videoId'">
-        {{ video.videoId }} {{ video.title }} {{ video.year }} {{ video.duration }}
-    </li>
-</ul>
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Year</th>
+        <th>Duration (min)</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="video in videos|orderBy:'videoId'">
+            <td>{{ video.videoId }}</td>
+            <td>{{ video.title }}</td>
+            <td>{{ video.year }}</td>
+            <td>{{ video.duration }}</td>
+        </tr>
+    </tbody>
+</table>
