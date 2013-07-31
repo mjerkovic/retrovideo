@@ -18,11 +18,11 @@ public class Video extends AbstractAnnotatedAggregateRoot {
 
     @CommandHandler
     public Video(AddVideo command) {
-        apply(new VideoAddedEvent(command.getVideoId(), command.getTitle(), command.getYear(), command.getDuration()));
+        apply(new VideoAdded(command.getVideoId(), command.getTitle(), command.getYear(), command.getDuration()));
     }
 
     @EventHandler
-    public void on(VideoAddedEvent event) {
+    public void on(VideoAdded event) {
         this.videoId = event.getVideoId();
         this.title = event.getTitle();
         this.year = event.getYear();

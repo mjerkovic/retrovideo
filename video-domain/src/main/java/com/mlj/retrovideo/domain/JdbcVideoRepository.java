@@ -15,7 +15,7 @@ public class JdbcVideoRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void addVideo(VideoAddedEvent event) {
+    public void addVideo(VideoAdded event) {
         jdbcTemplate.update("insert into videos (videoId, title, year, duration) values (?, ?, ?, ?)",
                 event.getVideoId(), event.getTitle(), event.getYear(), event.getDuration());
     }

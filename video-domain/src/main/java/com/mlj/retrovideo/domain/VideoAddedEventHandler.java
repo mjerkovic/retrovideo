@@ -4,10 +4,10 @@ import org.axonframework.eventhandling.annotation.EventHandler;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AddVideoEventHandler {
+public class VideoAddedEventHandler {
 
     @EventHandler
-    public void handle(VideoAddedEvent event, JdbcVideoRepository videoRepository) {
+    public void handle(VideoAdded event, JdbcVideoRepository videoRepository) {
         videoRepository.addVideo(event);
     }
 

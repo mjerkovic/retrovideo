@@ -1,13 +1,13 @@
 package com.mlj.retrovideo.domain;
 
-public class VideoAddedEvent {
+public class VideoAdded {
 
     private final String videoId;
     private final String title;
     private final Integer year;
     private final Integer duration;
 
-    public VideoAddedEvent(String videoId, String title, Integer year, Integer duration) {
+    public VideoAdded(String videoId, String title, Integer year, Integer duration) {
         this.videoId = videoId;
         this.title = title;
         this.year = year;

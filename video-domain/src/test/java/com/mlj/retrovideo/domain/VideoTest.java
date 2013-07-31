@@ -18,7 +18,7 @@ public class VideoTest {
     public void testAddVideo() throws Exception {
         fixture.given()
                 .when(new AddVideo("todo1", "need to implement the aggregate", 2013, 180))
-                .expectEvents(new VideoAddedEvent("todo1", "need to implement the aggregate", 2013, 180));
+                .expectEvents(new VideoAdded("todo1", "need to implement the aggregate", 2013, 180));
     }
 
 }
