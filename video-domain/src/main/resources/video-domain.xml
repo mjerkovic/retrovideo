@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:axon="http://www.axonframework.org/schema/core"
-       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.axonframework.org/schema/core
-       http://www.axonframework.org/schema/axon-core.xsd
-       http://www.springframework.org/schema/jdbc
-       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+       http://www.axonframework.org/schema/axon-core.xsd">
+
+    <import resource="video-persistence.xml"/>
 
     <axon:annotation-config />
 
-    <axon:command-bus id="commandBus"/>
+    <axon:command-bus id="commandBus" transaction-manager="transactionManager"/>
     <axon:event-bus id="eventBus"/>
 
-    <axon:filesystem-event-store id="eventStore" base-dir="events"/>
+    <axon:jpa-event-store id="eventStore" data-source="dataSource"/>
 
     <bean class="org.axonframework.commandhandling.gateway.CommandGatewayFactoryBean">
         <property name="commandBus" ref="commandBus"/>
@@ -27,22 +26,5 @@
                                     aggregate-type="com.mlj.retrovideo.domain.Video"
                                     repository="videoRepository"
                                     command-bus="commandBus"/>
-
-
-    <jdbc:embedded-database id="dataSource" type="H2">
-        <jdbc:script location="classpath:createTable.sql"/>
-    </jdbc:embedded-database>
-
-    <bean id="jdbcVideoRepository" class="com.mlj.retrovideo.domain.JdbcVideoRepository">
-        <constructor-arg>
-            <bean class="org.springframework.jdbc.core.JdbcTemplate">
-                <constructor-arg ref="dataSource"/>
-            </bean>
-        </constructor-arg>
-    </bean>
-
-    <bean id="h2WebServer" class="org.h2.tools.Server" factory-method="createWebServer" init-method="start" destroy-method="stop">
-        <constructor-arg value="-web,-webAllowOthers,-webPort,8082"/>
-    </bean>
 
 </beans>
