@@ -2,7 +2,6 @@ package com.mlj.retrovideo;
 
 public class VideoDto {
 
-    private String videoId;
     private String title;
     private Integer year;
     private Integer duration;
@@ -10,15 +9,10 @@ public class VideoDto {
     public VideoDto() {
     }
 
-    public VideoDto(String videoId, String title, Integer year, Integer duration) {
-        this.videoId = videoId;
+    public VideoDto(String title, Integer year, Integer duration) {
         this.title = title;
         this.year = year;
         this.duration = duration;
-    }
-
-    public String getVideoId() {
-        return videoId;
     }
 
     public String getTitle() {
@@ -31,10 +25,6 @@ public class VideoDto {
 
     public Integer getDuration() {
         return duration;
-    }
-
-    public void setVideoId(String videoId) {
-        this.videoId = videoId;
     }
 
     public void setTitle(String title) {
@@ -52,8 +42,10 @@ public class VideoDto {
     @Override
     public String toString() {
         return "VideoDto{" +
-                "videoId='" + videoId + '\'' +
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
+                ", year=" + year +
+                ", duration=" + duration +
                 '}';
     }
+
 }

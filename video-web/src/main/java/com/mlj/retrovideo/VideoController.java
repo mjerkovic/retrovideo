@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -25,7 +26,7 @@ public class VideoController {
     @RequestMapping(method = POST, value = "/perform/addVideo", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public void addVideo(@RequestBody VideoDto videoDto) {
-        commandGateway.send(new AddVideo(videoDto.getVideoId(), videoDto.getTitle(), videoDto.getYear(),
+        commandGateway.send(new AddVideo(UUID.randomUUID().toString(), videoDto.getTitle(), videoDto.getYear(),
                 videoDto.getDuration()));
     }
 
