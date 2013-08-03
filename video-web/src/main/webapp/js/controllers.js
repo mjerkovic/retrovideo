@@ -1,7 +1,7 @@
 function NewVideoCtrl($scope, $http, $location) {
 
     $scope.submit = function() {
-        $http.post('/perform/addVideo', $scope.data).success(function() {
+        $http.post('/video', $scope.data).success(function() {
             $location.path("/videos");
         });
     }
@@ -10,7 +10,7 @@ function NewVideoCtrl($scope, $http, $location) {
 
 function ListVideosCtrl($scope, $http) {
 
-    $http.get("/query").success(function(data) {
+    $http.get("/video").success(function(data) {
         $scope.videos = data;
     });
 

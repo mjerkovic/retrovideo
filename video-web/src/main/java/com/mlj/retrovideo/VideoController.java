@@ -1,46 +1,46 @@
 package com.mlj.retrovideo;
 
-import com.mlj.retrovideo.domain.AddVideo;
-import com.mlj.retrovideo.domain.JdbcVideoRepository;
-import com.mlj.retrovideo.domain.VideoView;
-import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.List;
 import java.util.UUID;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import com.mlj.retrovideo.domain.AddVideo;
+import com.mlj.retrovideo.domain.VideoService;
+import com.mlj.retrovideo.domain.VideoView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 public class VideoController {
 
     @Autowired
-    private CommandGateway commandGateway;
-    @Autowired
-    private JdbcVideoRepository videosRepository;
+    private VideoService videoService;
 
-    @RequestMapping(method = POST, value = "/perform/addVideo", consumes = "application/json")
+    @RequestMapping(method = POST, value = "/video", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public void addVideo(@RequestBody VideoDto videoDto) {
-        commandGateway.send(new AddVideo(UUID.randomUUID().toString(), videoDto.getTitle(), videoDto.getYear(),
+        videoService.addVideo(new AddVideo(UUID.randomUUID().toString(), videoDto.getTitle(), videoDto.getYear(),
                 videoDto.getDuration()));
     }
 
-    @RequestMapping(method = GET, value = "/query", produces = "application/json")
+    @RequestMapping(method = GET, value = "/video", produces = "application/json")
     @ResponseBody
     public List<VideoView> all() {
-        List<VideoView> videos = videosRepository.all();
-        return videos;
+        return videoService.allVideos();
     }
 
-    @RequestMapping(method = GET, value = "/query/{videoId}", produces = "application/json")
+    @RequestMapping(method = GET, value = "/video/{videoId}", produces = "application/json")
     @ResponseBody
     public VideoView byId(@PathVariable String videoId) {
-        return videosRepository.byId(videoId);
+        return videoService.byId(videoId);
     }
 
 }
