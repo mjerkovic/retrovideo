@@ -27,4 +27,28 @@
                                     repository="videoRepository"
                                     command-bus="commandBus"/>
 
+    <axon:cluster id="cluster" default="true">
+        <axon:replay-config/>
+        <bean id="replayingCluster" class="org.axonframework.eventhandling.replay.ReplayingCluster">
+            <constructor-arg>
+                <bean id="simpleCluster" class="org.axonframework.eventhandling.SimpleCluster">
+                    <constructor-arg value="simpleCluster"/>
+                </bean>
+            </constructor-arg>
+            <constructor-arg ref="eventStore"/>
+            <constructor-arg>
+                <bean class="org.axonframework.unitofwork.SpringTransactionManager">
+                    <constructor-arg ref="transactionManager"/>
+                    <constructor-arg>
+                        <bean class="org.springframework.transaction.support.DefaultTransactionDefinition"/>
+                    </constructor-arg>
+                </bean>
+            </constructor-arg>
+            <constructor-arg value="0"/>
+            <constructor-arg>
+                <bean class="org.axonframework.eventhandling.replay.BackloggingIncomingMessageHandler"/>
+            </constructor-arg>
+        </bean>
+    </axon:cluster>
+
 </beans>

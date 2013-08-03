@@ -2,6 +2,7 @@ package com.mlj.retrovideo;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,6 +10,7 @@ import java.util.UUID;
 import com.mlj.retrovideo.domain.AddVideo;
 import com.mlj.retrovideo.domain.VideoService;
 import com.mlj.retrovideo.domain.VideoView;
+import org.axonframework.eventhandling.replay.ReplayingCluster;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -21,8 +23,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Controller
 public class VideoController {
 
+    private final VideoService videoService;
+    private final ReplayingCluster replayingCluster;
+
     @Autowired
-    private VideoService videoService;
+    public VideoController(VideoService videoService, ReplayingCluster replayingCluster) {
+        this.videoService = videoService;
+        this.replayingCluster = replayingCluster;
+    }
 
     @RequestMapping(method = POST, value = "/video", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
@@ -41,6 +49,12 @@ public class VideoController {
     @ResponseBody
     public VideoView byId(@PathVariable String videoId) {
         return videoService.byId(videoId);
+    }
+
+    @RequestMapping(method = PUT, value="replayAll")
+    @ResponseStatus(HttpStatus.OK)
+    public void replayEvents() {
+        replayingCluster.startReplay();
     }
 
 }
