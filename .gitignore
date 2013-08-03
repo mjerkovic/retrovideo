@@ -4,3 +4,5 @@
 events/
 *.jar
 h2-license.txt
+db/
+*.json
