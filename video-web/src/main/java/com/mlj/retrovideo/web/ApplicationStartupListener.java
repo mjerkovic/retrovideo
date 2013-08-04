@@ -1,4 +1,4 @@
-package com.mlj.retrovideo;
+package com.mlj.retrovideo.web;
 
 import org.axonframework.eventhandling.replay.ReplayingCluster;
 import org.springframework.beans.factory.annotation.Autowired;

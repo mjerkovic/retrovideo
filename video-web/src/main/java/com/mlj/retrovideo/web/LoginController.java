@@ -1,9 +1,11 @@
-package com.mlj.retrovideo;
+package com.mlj.retrovideo.web;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 import com.mlj.retrovideo.domain.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +26,12 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login", method = POST)
-    @ResponseStatus(HttpStatus.OK)
-    public void login(LoginDto loginDto, HttpServletRequest request) {
-        if (securityService.authenticate(loginDto.getUserName(), loginDto.getPassword())) {
+    public void login(LoginDto loginDto, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (securityService.authenticate(loginDto.getUsername(), loginDto.getPassword())) {
             HttpSession session = request.getSession();
             session.invalidate();
             request.getSession(true);
+            response.sendRedirect("/video.html");
         } else {
             throw new LoginFailedException();
         }

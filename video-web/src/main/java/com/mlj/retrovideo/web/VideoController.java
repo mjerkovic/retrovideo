@@ -1,4 +1,4 @@
-package com.mlj.retrovideo;
+package com.mlj.retrovideo.web;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;

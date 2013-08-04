@@ -1,4 +1,4 @@
-package com.mlj.retrovideo;
+package com.mlj.retrovideo.web;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
