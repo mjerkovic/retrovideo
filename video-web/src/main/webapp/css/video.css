@@ -40,3 +40,8 @@ ul#videoList li {
     color: #fff;
     background-color: #369;
 }
+
+body.login {
+    margin-left: 50px;
+    margin-right: 50px;
+}
