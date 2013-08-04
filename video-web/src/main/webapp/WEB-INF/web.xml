@@ -3,7 +3,25 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+
+  <display-name>RetroVideo Video Store</display-name>
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:video-domain.xml,/WEB-INF/security.xml</param-value>
+    </context-param>
 
     <servlet>
         <servlet-name>video</servlet-name>
@@ -12,7 +30,7 @@
         </servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/video.xml, classpath:video-domain.xml</param-value>
+            <param-value>/WEB-INF/video.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>

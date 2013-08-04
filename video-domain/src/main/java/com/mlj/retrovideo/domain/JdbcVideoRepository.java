@@ -1,11 +1,11 @@
 package com.mlj.retrovideo.domain;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 public class JdbcVideoRepository {
 
@@ -39,6 +39,11 @@ public class JdbcVideoRepository {
                         resultSet.getInt("year"), resultSet.getInt("duration"));
             }
         });
+    }
+
+    public boolean userExists(String userName, String password) {
+        return jdbcTemplate.queryForInt("select count(firstname) from users where username = ? and password = ?",
+                userName, password) == 1;
     }
 
 }
