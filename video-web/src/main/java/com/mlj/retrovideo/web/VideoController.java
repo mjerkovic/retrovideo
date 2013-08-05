@@ -10,6 +10,7 @@ import java.util.UUID;
 import com.mlj.retrovideo.domain.AddVideo;
 import com.mlj.retrovideo.domain.VideoService;
 import com.mlj.retrovideo.domain.VideoView;
+import org.apache.commons.lang3.text.WordUtils;
 import org.axonframework.eventhandling.replay.ReplayingCluster;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,8 +36,8 @@ public class VideoController {
     @RequestMapping(method = POST, value = "/video", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public void addVideo(@RequestBody VideoDto videoDto) {
-        videoService.addVideo(new AddVideo(UUID.randomUUID().toString(), videoDto.getTitle(), videoDto.getYear(),
-                videoDto.getDuration()));
+        videoService.addVideo(new AddVideo(UUID.randomUUID().toString(), WordUtils.capitalizeFully(videoDto.getTitle()),
+                videoDto.getYear(), videoDto.getDuration()));
     }
 
     @RequestMapping(method = GET, value = "/video", produces = "application/json")
