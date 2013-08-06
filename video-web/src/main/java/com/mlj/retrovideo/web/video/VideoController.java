@@ -1,4 +1,4 @@
-package com.mlj.retrovideo.web;
+package com.mlj.retrovideo.web.video;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -7,9 +7,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 import java.util.List;
 import java.util.UUID;
 
-import com.mlj.retrovideo.domain.AddVideo;
-import com.mlj.retrovideo.domain.VideoService;
-import com.mlj.retrovideo.domain.VideoView;
+import com.mlj.retrovideo.domain.video.AddVideo;
+import com.mlj.retrovideo.domain.video.VideoService;
+import com.mlj.retrovideo.domain.video.VideoView;
 import org.apache.commons.lang3.text.WordUtils;
 import org.axonframework.eventhandling.replay.ReplayingCluster;
 import org.springframework.beans.factory.annotation.Autowired;

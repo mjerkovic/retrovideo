@@ -8,10 +8,10 @@ CREATE TABLE VIDEOS
 
 CREATE TABLE USERS
 (
+  employeeId VARCHAR(50) NOT NULL,
+  firstName VARCHAR(50) NOT NULL,
+  lastName VARCHAR(50) NOT NULL,
   userName VARCHAR(50) NOT NULL,
   password VARCHAR(50) NOT NULL,
-  firstName VARCHAR(30) NOT NULL,
-  lastName VARCHAR(50) NOT NULL
+  administrator BIT NOT NULL
 );
-
-INSERT INTO USERS (userName, password, firstName, lastName) VALUES ('admin', 'admin', 'Administrator', '');

@@ -1,4 +1,4 @@
-package com.mlj.retrovideo.web;
+package com.mlj.retrovideo.web.employee;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -7,7 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import com.mlj.retrovideo.domain.SecurityService;
+import com.mlj.retrovideo.domain.employee.AuthenticationFailedException;
+import com.mlj.retrovideo.domain.employee.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -18,21 +19,22 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Controller
 public class LoginController {
 
-    private final SecurityService securityService;
+    private final EmployeeService employeeService;
 
     @Autowired
-    public LoginController(SecurityService securityService) {
-        this.securityService = securityService;
+    public LoginController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
     @RequestMapping(value = "/login", method = POST)
     public void login(LoginDto loginDto, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (securityService.authenticate(loginDto.getUsername(), loginDto.getPassword())) {
+        try {
+            employeeService.authenticate(loginDto.getUsername(), loginDto.getPassword());
             HttpSession session = request.getSession();
             session.invalidate();
             request.getSession(true);
             response.sendRedirect("/video.html");
-        } else {
+        } catch (AuthenticationFailedException e) {
             throw new LoginFailedException();
         }
     }

@@ -1,4 +1,4 @@
-package com.mlj.retrovideo.domain;
+package com.mlj.retrovideo.domain.video;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,7 +19,6 @@ public class ElasticVideoRepository {
 
     private final Client client;
     private final ObjectMapper objectMapper;
-
 
     @Autowired
     public ElasticVideoRepository(Client client, ObjectMapper objectMapper) {

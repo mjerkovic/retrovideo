@@ -1,11 +1,11 @@
-package com.mlj.retrovideo.web;
+package com.mlj.retrovideo.web.video;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import com.mlj.retrovideo.domain.AddVideo;
-import com.mlj.retrovideo.domain.VideoService;
+import com.mlj.retrovideo.domain.video.AddVideo;
+import com.mlj.retrovideo.domain.video.VideoService;
 import org.axonframework.eventhandling.replay.ReplayingCluster;
 import org.junit.Before;
 import org.junit.Test;

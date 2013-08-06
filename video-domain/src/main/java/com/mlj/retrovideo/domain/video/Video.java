@@ -1,4 +1,4 @@
-package com.mlj.retrovideo.domain;
+package com.mlj.retrovideo.domain.video;
 
 import org.axonframework.commandhandling.annotation.CommandHandler;
 import org.axonframework.eventhandling.annotation.EventHandler;

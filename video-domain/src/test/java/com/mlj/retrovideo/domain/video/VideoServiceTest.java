@@ -1,4 +1,4 @@
-package com.mlj.retrovideo.domain;
+package com.mlj.retrovideo.domain.video;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.Is.is;

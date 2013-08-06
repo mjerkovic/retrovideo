@@ -1,4 +1,4 @@
-package com.mlj.retrovideo.domain;
+package com.mlj.retrovideo.domain.video;
 
 public class VideoView {
 

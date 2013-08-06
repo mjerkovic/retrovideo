@@ -24,11 +24,19 @@
     </bean>
 
     <axon:event-sourcing-repository id="videoRepository"
-                                    aggregate-type="com.mlj.retrovideo.domain.Video"/>
+                                    aggregate-type="com.mlj.retrovideo.domain.video.Video"/>
 
     <axon:aggregate-command-handler id="videoCommandHandler"
-                                    aggregate-type="com.mlj.retrovideo.domain.Video"
+                                    aggregate-type="com.mlj.retrovideo.domain.video.Video"
                                     repository="videoRepository"
+                                    command-bus="commandBus"/>
+
+    <axon:event-sourcing-repository id="employeeRepository"
+                                    aggregate-type="com.mlj.retrovideo.domain.employee.Employee"/>
+
+    <axon:aggregate-command-handler id="employeeCommandHandler"
+                                    aggregate-type="com.mlj.retrovideo.domain.employee.Employee"
+                                    repository="employeeRepository"
                                     command-bus="commandBus"/>
 
     <axon:cluster id="cluster" default="true">

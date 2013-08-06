@@ -1,4 +1,4 @@
-package com.mlj.retrovideo.web;
+package com.mlj.retrovideo.web.video;
 
 public class VideoDto {
 
