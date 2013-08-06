@@ -1,4 +1,4 @@
-angular.module('retrovideo', []).
+angular.module('retrovideo', ['$strap.directives']).
     config(['$routeProvider', function($routeProvider) {
         $routeProvider.
             when('/newVideo', {templateUrl: 'new-video.html',   controller: NewVideoCtrl}).
