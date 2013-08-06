@@ -2,18 +2,10 @@ package com.mlj.retrovideo.domain;
 
 public class VideoView {
 
-    private final String videoId;
-    private final String title;
-    private final int year;
-    private final int duration;
-
-
-    public VideoView(String videoId, String title, int year, int duration) {
-        this.videoId = videoId;
-        this.title = title;
-        this.year = year;
-        this.duration = duration;
-    }
+    private String videoId;
+    private String title;
+    private int year;
+    private int duration;
 
     public String getVideoId() {
         return videoId;
@@ -31,4 +23,19 @@ public class VideoView {
         return duration;
     }
 
+    public void setVideoId(String videoId) {
+        this.videoId = videoId;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 }

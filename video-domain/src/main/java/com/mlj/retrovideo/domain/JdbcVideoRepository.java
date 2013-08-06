@@ -25,8 +25,12 @@ public class JdbcVideoRepository {
                 new RowMapper<VideoView>() {
             @Override
             public VideoView mapRow(ResultSet resultSet, int i) throws SQLException {
-                return new VideoView(resultSet.getString("videoId"), resultSet.getString("title"),
-                        resultSet.getInt("year"), resultSet.getInt("duration"));
+                VideoView result = new VideoView();
+                result.setVideoId(resultSet.getString("videoId"));
+                result.setTitle(resultSet.getString("title"));
+                result.setYear(resultSet.getInt("year"));
+                result.setDuration(resultSet.getInt("duration"));
+                return result;
             }
         }, videoId);
     }
@@ -35,8 +39,12 @@ public class JdbcVideoRepository {
         return jdbcTemplate.query("select * from videos", new RowMapper<VideoView>() {
             @Override
             public VideoView mapRow(ResultSet resultSet, int i) throws SQLException {
-                return new VideoView(resultSet.getString("videoId"), resultSet.getString("title"),
-                        resultSet.getInt("year"), resultSet.getInt("duration"));
+                VideoView result = new VideoView();
+                result.setVideoId(resultSet.getString("videoId"));
+                result.setTitle(resultSet.getString("title"));
+                result.setYear(resultSet.getInt("year"));
+                result.setDuration(resultSet.getInt("duration"));
+                return result;
             }
         });
     }

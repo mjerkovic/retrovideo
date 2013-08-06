@@ -23,11 +23,13 @@ public class VideoServiceTest {
     private CommandGateway commandGateway;
     @Mock
     private JdbcVideoRepository videoRepository;
+    @Mock
+    private ElasticVideoRepository elasticVideoRepository;
 
     @Before
     public void givenAVideoService() throws Exception {
         initMocks(this);
-        videoService = new VideoService(commandGateway, videoRepository);
+        videoService = new VideoService(commandGateway, videoRepository, elasticVideoRepository);
     }
 
     @Test
@@ -43,6 +45,7 @@ public class VideoServiceTest {
     public void itShouldReturnAllVideos() throws Exception {
         List<VideoView> allVideos = Lists.newArrayList(mock(VideoView.class), mock(VideoView.class));
         when(videoRepository.all()).thenReturn(allVideos);
+        when(elasticVideoRepository.all()).thenReturn(allVideos);
 
         assertThat(videoService.allVideos(), is(equalTo(allVideos)));
     }
