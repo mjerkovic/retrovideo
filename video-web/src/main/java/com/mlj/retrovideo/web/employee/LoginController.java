@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import com.mlj.retrovideo.domain.employee.AuthenticationFailedException;
 import com.mlj.retrovideo.domain.employee.EmployeeService;
+import com.mlj.retrovideo.domain.employee.EmployeeView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -29,10 +30,11 @@ public class LoginController {
     @RequestMapping(value = "/login", method = POST)
     public void login(LoginDto loginDto, HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            employeeService.authenticate(loginDto.getUsername(), loginDto.getPassword());
+            EmployeeView employee = employeeService.authenticate(loginDto.getUsername(), loginDto.getPassword());
             HttpSession session = request.getSession();
             session.invalidate();
-            request.getSession(true);
+            session = request.getSession(true);
+            session.setAttribute("employeeId", employee.getEmployeeId());
             response.sendRedirect("/video.html");
         } catch (AuthenticationFailedException e) {
             throw new LoginFailedException();

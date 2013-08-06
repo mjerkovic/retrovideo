@@ -6,6 +6,7 @@ import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import java.io.IOException;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.search.SearchHits;
@@ -42,4 +43,12 @@ public class EmployeeReadRepository {
         }
     }
 
+    public EmployeeView getEmployee(String employeeId) {
+        GetResponse response = client.prepareGet("retrovideo", "employees", employeeId).execute().actionGet();
+        try {
+            return objectMapper.readValue(response.sourceAsString(), EmployeeView.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

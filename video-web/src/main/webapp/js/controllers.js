@@ -14,4 +14,11 @@ function ListVideosCtrl($scope, $http) {
         $scope.videos = data;
     });
 
+    $http.get("/employee/current").success(function(data) {
+        $scope.employee = {
+            firstName: data.firstName,
+            lastName: data.lastName
+        };
+    });
+
 }

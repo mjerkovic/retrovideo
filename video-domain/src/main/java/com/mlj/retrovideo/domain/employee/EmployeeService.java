@@ -24,4 +24,7 @@ public class EmployeeService {
         return repository.authenticate(username, password);
     }
 
+    public EmployeeView getEmployee(String employeeId) {
+        return repository.getEmployee(employeeId);
+    }
 }
