@@ -33,7 +33,7 @@ public class ElasticVideoRepository {
                     .field("title", event.getTitle()).field("year", event.getYear()).field("duration", event.getDuration()).endObject();
             client.prepareIndex("retrovideo", "videos", event.getVideoId()).setSource(builder).setRefresh(true).execute().actionGet();
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
     }
 
