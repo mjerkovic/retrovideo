@@ -7,8 +7,9 @@ import org.springframework.stereotype.Component;
 public class VideoAddedEventHandler {
 
     @EventHandler
-    public void handle(VideoAdded event, JdbcVideoRepository videoRepository) {
+    public void handle(VideoAdded event, JdbcVideoRepository videoRepository, ElasticVideoRepository elasticVideoRepository) {
         videoRepository.addVideo(event);
+        elasticVideoRepository.addVideo(event);
     }
 
 }

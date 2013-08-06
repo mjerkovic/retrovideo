@@ -6,3 +6,4 @@ events/
 h2-license.txt
 db/
 *.json
+**/data/

@@ -98,6 +98,10 @@
             </exclusions>
 -->
         </dependency>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
