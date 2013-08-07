@@ -27,9 +27,19 @@ app.controller('ListVideosCtrl', function($scope, $http) {
 
 });
 
+app.controller('InventoryCtrl', function($scope, $http) {
+
+    $http.get("/video").success(function(data) {
+        $scope.videos = data;
+    });
+
+});
+
+
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
         when('/newVideo', {templateUrl: 'new-video.html',   controller: 'NewVideoCtrl'}).
         when('/videos', {templateUrl: 'list-video.html', controller: 'ListVideosCtrl'}).
+        when('/inventory', {templateUrl: 'inventory.html', controller: 'InventoryCtrl'}).
         otherwise({redirectTo: '/videos'});
 }]);
