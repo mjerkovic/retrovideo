@@ -27,4 +27,9 @@ public class EmployeeService {
     public EmployeeView getEmployee(String employeeId) {
         return repository.getEmployee(employeeId);
     }
+
+    public EmployeeView getEmployeeByUsername(String username) {
+        return repository.getEmployeeByUsername(username);
+    }
+
 }

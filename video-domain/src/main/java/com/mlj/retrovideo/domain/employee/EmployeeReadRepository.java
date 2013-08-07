@@ -9,6 +9,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHits;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -51,4 +52,15 @@ public class EmployeeReadRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public EmployeeView getEmployeeByUsername(String username) {
+        SearchResponse searchResponse = client.prepareSearch("retrovideo").setTypes("employees")
+                .setQuery(QueryBuilders.matchQuery("username", username)).execute().actionGet();
+        try {
+            return objectMapper.readValue(searchResponse.hits().getAt(0).sourceAsString(), EmployeeView.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
