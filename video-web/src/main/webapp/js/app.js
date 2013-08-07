@@ -29,9 +29,18 @@ app.controller('ListVideosCtrl', function($scope, $http) {
 
 app.controller('InventoryCtrl', function($scope, $http) {
 
+    $scope.stock = [];
+
     $http.get("/video").success(function(data) {
         $scope.videos = data;
     });
+
+    $scope.submit = function() {
+        var selectedVideo = $scope.videos.filter(function(video) {
+            return video.videoId == $scope.newstock.title;
+        });
+        $scope.stock.push({ title: selectedVideo[0].title, quantity: $scope.newstock.quantity });
+    }
 
 });
 
