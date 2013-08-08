@@ -40,7 +40,7 @@ public class ElasticVideoRepository {
 
     public VideoList videosForPage(int pageNo) {
         SearchResponse searchResponse = client.prepareSearch("retrovideo").setTypes("videos")
-                .setQuery(QueryBuilders.matchAllQuery()).setFrom(pageNo).addSort("duration", SortOrder.ASC)
+                .setQuery(QueryBuilders.matchAllQuery()).setFrom(pageNo).addSort("title", SortOrder.ASC)
                 .execute().actionGet();
         List<VideoView> videos = Lists.newArrayList();
         for (SearchHit hit : searchResponse.hits().getHits()) {
