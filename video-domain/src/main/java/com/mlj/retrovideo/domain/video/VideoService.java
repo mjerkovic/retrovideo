@@ -1,7 +1,5 @@
 package com.mlj.retrovideo.domain.video;
 
-import java.util.List;
-
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,9 +23,9 @@ public class VideoService {
         commandGateway.send(videoCommand);
     }
 
-    public List<VideoView> allVideos() {
-        //return videoRepository.all();
-        return elasticVideoRepository.all();
+    public VideoList videosForPage(int pageNo) {
+        //return videoRepository.videosForPage();
+        return elasticVideoRepository.videosForPage(pageNo);
     }
 
     public VideoView byId(String videoId) {

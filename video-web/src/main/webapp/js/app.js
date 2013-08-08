@@ -1,4 +1,4 @@
-var app = angular.module('retrovideo', ['$strap.directives']);
+var app = angular.module('retrovideo', ['ui.bootstrap', '$strap.directives']);
 
 app.controller('NewVideoCtrl', function($scope, $http, $location) {
 
@@ -13,9 +13,9 @@ app.controller('NewVideoCtrl', function($scope, $http, $location) {
 
 app.controller('ListVideosCtrl', function($scope, $http) {
 
-    $http.get("/video").success(function(data) {
-        $scope.videos = data;
-    });
+    $scope.getNumber = function(num) {
+        return new Array(num);
+    }
 
     $http.get("/employee/current").success(function(data) {
         $scope.employee = {
@@ -24,6 +24,13 @@ app.controller('ListVideosCtrl', function($scope, $http) {
         };
     });
 
+    $scope.newPage = function(page) {
+        $http.get("/video/page/"+(page-1)).success(function(data) {
+            $scope.videoList = data;
+        });
+    }
+
+    $scope.newPage(1);
 
 });
 
@@ -31,7 +38,7 @@ app.controller('InventoryCtrl', function($scope, $http) {
 
     $scope.stock = [];
 
-    $http.get("/video").success(function(data) {
+    $http.get("/video/page/0").success(function(data) {
         $scope.videos = data;
     });
 

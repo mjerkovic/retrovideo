@@ -8,12 +8,14 @@ public class AddVideo {
     private final String videoId;
     private final String title;
     private final Integer year;
+    private final String country;
     private final Integer duration;
 
-    public AddVideo(String videoId, String title, Integer year, Integer duration) {
+    public AddVideo(String videoId, String title, Integer year, String country, Integer duration) {
         this.videoId = videoId;
         this.title = title;
         this.year = year;
+        this.country = country;
         this.duration = duration;
     }
 
@@ -31,6 +33,10 @@ public class AddVideo {
 
     public Integer getDuration() {
         return duration;
+    }
+
+    public String getCountry() {
+        return country;
     }
 
 }

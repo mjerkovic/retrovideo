@@ -5,6 +5,7 @@ public class VideoView {
     private String videoId;
     private String title;
     private int year;
+    private String country;
     private int duration;
 
     public String getVideoId() {
@@ -35,7 +36,16 @@ public class VideoView {
         this.year = year;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     public void setDuration(int duration) {
         this.duration = duration;
     }
+
 }

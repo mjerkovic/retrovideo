@@ -27,7 +27,7 @@ public class VideoControllerTest {
 
     @Test
     public void itShouldDelegateToVideoServiceWhenAddingVideo() throws Exception {
-        controller.addVideo(new VideoDto("title", 2013, 90));
+        controller.addVideo(new VideoDto("title", 2013, "Australia", 90));
 
         verify(videoService).addVideo(any(AddVideo.class));
 

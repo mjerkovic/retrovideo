@@ -221,7 +221,7 @@ function setHashKey(obj, h) {
  * @function
  *
  * @description
- * Extends the destination object `dst` by copying all of the properties from the `src` object(s)
+ * Extends the destination object `dst` by copying videosForPage of the properties from the `src` object(s)
  * to `dst`. You can specify multiple `src` objects.
  *
  * @param {Object} dst Destination object.
@@ -559,8 +559,8 @@ function isLeafNode (node) {
  * Creates a deep copy of `source`, which should be an object or an array.
  *
  * * If no destination is supplied, a copy of the object or array is created.
- * * If a destination is provided, all of its elements (for array) or properties (for objects)
- *   are deleted and then all elements/properties from the source are copied to it.
+ * * If a destination is provided, videosForPage of its elements (for array) or properties (for objects)
+ *   are deleted and then videosForPage elements/properties from the source are copied to it.
  * * If  `source` is not an object or array, `source` is returned.
  *
  * Note: this function is used to augment the Object type in Angular expressions. See
@@ -634,7 +634,7 @@ function shallowCopy(src, dst) {
  * Two objects or values are considered equivalent if at least one of the following is true:
  *
  * * Both objects or values pass `===` comparison.
- * * Both objects or values are of the same type and all of their properties pass `===` comparison.
+ * * Both objects or values are of the same type and videosForPage of their properties pass `===` comparison.
  * * Both values are NaN. (In JavasScript, NaN == NaN => false. But we consider two NaN as equal)
  *
  * During a property comparision, properties of `function` type and properties with names
@@ -706,7 +706,7 @@ function sliceArgs(args, startIndex) {
  * @param {Object} self Context which `fn` should be evaluated in.
  * @param {function()} fn Function to be bound.
  * @param {...*} args Optional arguments to be prebound to the `fn` function call.
- * @returns {function()} Function that wraps the `fn` with all the specified bindings.
+ * @returns {function()} Function that wraps the `fn` with videosForPage the specified bindings.
  */
 function bind(self, fn) {
   var curryArgs = arguments.length > 2 ? sliceArgs(arguments, 2) : [];
@@ -1267,7 +1267,7 @@ function setupModuleLoader(window) {
            *    Useful for application initialization.
            * @description
            * Use this method to register work which should be performed when the injector is done
-           * loading all modules.
+           * loading videosForPage modules.
            */
           run: function(block) {
             runBlocks.push(block);
@@ -1313,7 +1313,7 @@ function setupModuleLoader(window) {
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */
 var version = {
-  full: '1.0.7',    // all of these placeholder strings will be replaced by grunt's
+  full: '1.0.7',    // videosForPage of these placeholder strings will be replaced by grunt's
   major: 1,    // package task
   minor: 0,
   dot: 7,
@@ -1537,8 +1537,8 @@ function camelCase(name) {
 /////////////////////////////////////////////
 // jQuery mutation patch
 //
-//  In conjunction with bindJQuery intercepts all jQuery's DOM destruction apis and fires a
-// $destroy event on all DOM nodes being removed.
+//  In conjunction with bindJQuery intercepts videosForPage jQuery's DOM destruction apis and fires a
+// $destroy event on videosForPage DOM nodes being removed.
 //
 /////////////////////////////////////////////
 
@@ -1946,7 +1946,7 @@ forEach({
           return fn(this[0], arg1, arg2);
       }
     } else {
-      // we are a write, so apply to all children
+      // we are a write, so apply to videosForPage children
       for(i=0; i < this.length; i++) {
         fn(this[i], arg1, arg2);
       }
@@ -2418,7 +2418,7 @@ function annotate(fn) {
  * # Injection Function Annotation
  *
  * JavaScript does not have annotations, and annotations are needed for dependency injection. The
- * following are all valid ways of annotating function with injection arguments and are equivalent.
+ * following are videosForPage valid ways of annotating function with injection arguments and are equivalent.
  *
  * <pre>
  *   // inferred (only works if code not minified/obfuscated)
@@ -2479,7 +2479,7 @@ function annotate(fn) {
  * @methodOf AUTO.$injector
  * @description
  * Create a new instance of JS type. The method takes a constructor function invokes the new operator and supplies
- * all of the arguments to the constructor function as specified by the constructor annotation.
+ * videosForPage of the arguments to the constructor function as specified by the constructor annotation.
  *
  * @param {function} Type Annotated constructor function.
  * @param {Object=} locals Optional object. If preset then any argument names are read from this object first, before
@@ -3000,8 +3000,8 @@ function $AnchorScrollProvider() {
  * @description
  * This object has two goals:
  *
- * - hide all the global state in the browser caused by the window object
- * - abstract away all the browser specific features and inconsistencies
+ * - hide videosForPage the global state in the browser caused by the window object
+ * - abstract away videosForPage the browser specific features and inconsistencies
  *
  * For tests we provide {@link ngMock.$browser mock implementation} of the `$browser`
  * service, which can be used for convenient testing of the application without the interaction with
@@ -3034,7 +3034,7 @@ function Browser(window, document, $log, $sniffer) {
 
   /**
    * Executes the `fn` function(supports currying) and decrements the `outstandingRequestCallbacks`
-   * counter. If the counter reaches 0, all the `outstandingRequestCallbacks` are executed.
+   * counter. If the counter reaches 0, videosForPage the `outstandingRequestCallbacks` are executed.
    */
   function completeOutstandingRequest(fn) {
     try {
@@ -3060,7 +3060,7 @@ function Browser(window, document, $log, $sniffer) {
    * @param {function()} callback Function that will be called when no outstanding request
    */
   self.notifyWhenNoOutstandingRequests = function(callback) {
-    // force browser to execute all pollFns - this is needed so that cookies and other pollers fire
+    // force browser to execute videosForPage pollFns - this is needed so that cookies and other pollers fire
     // at some deterministic time in respect to the test runner's actions. Leaving things up to the
     // regular poller would result in flaky tests.
     forEach(pollFns, function(pollFn){ pollFn(); });
@@ -3252,12 +3252,12 @@ function Browser(window, document, $log, $sniffer) {
    *
    * The return values vary depending on the arguments that the method was called with as follows:
    * <ul>
-   *   <li>cookies() -> hash of all cookies, this is NOT a copy of the internal state, so do not modify it</li>
+   *   <li>cookies() -> hash of videosForPage cookies, this is NOT a copy of the internal state, so do not modify it</li>
    *   <li>cookies(name, value) -> set name to value, if value is undefined delete the cookie</li>
    *   <li>cookies(name) -> the same as (name, undefined) == DELETES (no one calls it right now that way)</li>
    * </ul>
    *
-   * @returns {Object} Hash of all cookies (if called without any parameter)
+   * @returns {Object} Hash of videosForPage cookies (if called without any parameter)
    */
   self.cookies = function(name, value) {
     var cookieLength, cookieArray, cookie, i, index;
@@ -3379,7 +3379,7 @@ function $BrowserProvider(){
  * - `{void}` `put({string} key, {*} value)` — Puts a new key-value pair into the cache.
  * - `{{*}}` `get({string} key)` — Returns cached value for `key` or undefined for cache miss.
  * - `{void}` `remove({string} key)` — Removes a key-value pair from the cache.
- * - `{void}` `removeAll()` — Removes all cached values.
+ * - `{void}` `removeAll()` — Removes videosForPage cached values.
  * - `{void}` `destroy()` — Removes references to this cache from $cacheFactory.
  *
  */
@@ -3543,9 +3543,9 @@ function $TemplateCacheProvider() {
  * Compiler related stuff:
  *
  * - "linkFn" - linking fn of a single directive
- * - "nodeLinkFn" - function that aggregates all linking fns for a particular node
- * - "childLinkFn" -  function that aggregates all linking fns for child nodes of a particular node
- * - "compositeLinkFn" - function that aggregates all linking fns for a compilation root (nodeList)
+ * - "nodeLinkFn" - function that aggregates videosForPage linking fns for a particular node
+ * - "childLinkFn" -  function that aggregates videosForPage linking fns for child nodes of a particular node
+ * - "compositeLinkFn" - function that aggregates videosForPage linking fns for a compilation root (nodeList)
  */
 
 
@@ -3787,7 +3787,7 @@ function $CompileProvider($provide) {
 
 
       /**
-       * Set a normalized attribute on the element in a way such that all directives
+       * Set a normalized attribute on the element in a way such that videosForPage directives
        * can share the attribute. This function properly handles boolean attributes.
        * @param {string} key Normalized key. (ie ngAttribute)
        * @param {string|boolean} value The value to set. If `null` attribute will be deleted.
@@ -3936,7 +3936,7 @@ function $CompileProvider($provide) {
     }
 
     /**
-     * Compile function matches each node in nodeList against the directives. Once all directives
+     * Compile function matches each node in nodeList against the directives. Once videosForPage directives
      * for a particular node are collected their compile functions are executed. The compile
      * functions return values - the linking functions - are combined into a composite linking
      * function, which is the a linking function for the node.
@@ -3948,7 +3948,7 @@ function $CompileProvider($provide) {
      *        rootElement must be set the jqLite collection of the compile root. This is
      *        needed so that the jqLite collection items can be replaced with widgets.
      * @param {number=} max directive priority
-     * @returns {?function} A composite linking function of all of the matched directives or null.
+     * @returns {?function} A composite linking function of videosForPage of the matched directives or null.
      */
     function compileNodes(nodeList, transcludeFn, $rootElement, maxPriority) {
       var linkFns = [],
@@ -4131,7 +4131,7 @@ function $CompileProvider($provide) {
           linkFn,
           directiveValue;
 
-      // executes all directives on the current element
+      // executes videosForPage directives on the current element
       for(var i = 0, ii = directives.length; i < ii; i++) {
         directive = directives[i];
         $template = undefined;
@@ -4664,7 +4664,7 @@ function $CompileProvider($provide) {
 
 var PREFIX_REGEXP = /^(x[\:\-_]|data[\:\-_])/i;
 /**
- * Converts all accepted directives format into proper directive name.
+ * Converts videosForPage accepted directives format into proper directive name.
  * All of these will become 'myDirective':
  *   my:DiRective
  *   my-directive
@@ -4685,7 +4685,7 @@ function directiveNormalize(name) {
  *
  * A shared object between directive compile / linking functions which contains normalized DOM element
  * attributes. The the values reflect current binding state `{{ }}`. The normalization is needed
- * since all of these are treated as equivalent in Angular:
+ * since videosForPage of these are treated as equivalent in Angular:
  *
  *          <span ng:bind="a" ng-bind="a" data-ng-bind="a" x-ng-bind="a">
  */
@@ -5261,7 +5261,7 @@ LocationUrl.prototype = {
    * @description
    * This method is getter only.
    *
-   * Return full url representation with all segments encoded according to rules specified in
+   * Return full url representation with videosForPage segments encoded according to rules specified in
    * {@link http://www.ietf.org/rfc/rfc3986.txt RFC 3986}.
    *
    * @return {string} full url
@@ -5418,7 +5418,7 @@ LocationUrl.prototype = {
    * @methodOf ng.$location
    *
    * @description
-   * If called, all changes to $location during current `$digest` will be replacing current history
+   * If called, videosForPage changes to $location during current `$digest` will be replacing current history
    * record, instead of adding new one.
    */
   replace: function() {
@@ -6752,7 +6752,7 @@ function $ParseProvider() {
  * - $q promises are recognized by the templating engine in angular, which means that in templates
  *   you can treat promises attached to a scope as if they were the resulting values.
  * - Q has many more features than $q, but that comes at a cost of bytes. $q is tiny, but contains
- *   all the important functionality needed for common async tasks.
+ *   videosForPage the important functionality needed for common async tasks.
  * 
  *  # Testing
  * 
@@ -7001,7 +7001,7 @@ function qFactory(nextTick, exceptionHandler) {
    * @name ng.$q#all
    * @methodOf ng.$q
    * @description
-   * Combines multiple promises into a single promise that is resolved when all of the input
+   * Combines multiple promises into a single promise that is resolved when videosForPage of the input
    * promises are resolved.
    *
    * @param {Array.<Promise>} promises An array of promises.
@@ -7169,7 +7169,7 @@ function $RouteProvider(){
      *     - `$scope` - The current route scope.
      *     - `$template` - The current route template HTML.
      *
-     * @property {Array.<Object>} routes Array of all configured routes.
+     * @property {Array.<Object>} routes Array of videosForPage configured routes.
      *
      * @description
      * Is used for deep-linking URLs to controllers and views (HTML partials).
@@ -7284,9 +7284,9 @@ function $RouteProvider(){
      * @eventType broadcast on root scope
      * @description
      * Broadcasted before a route change. At this  point the route services starts
-     * resolving all of the dependencies needed for the route change to occurs.
+     * resolving videosForPage of the dependencies needed for the route change to occurs.
      * Typically this involves fetching the view template as well as any dependencies
-     * defined in `resolve` route property. Once  all of the dependencies are resolved
+     * defined in `resolve` route property. Once  videosForPage of the dependencies are resolved
      * `$routeChangeSuccess` is fired.
      *
      * @param {Route} next Future route information.
@@ -7381,7 +7381,7 @@ function $RouteProvider(){
 
       while ((paramMatch = re.exec(when)) !== null) {
         // Find each :param in `when` and replace it with a capturing group.
-        // Append all other sections of when unchanged.
+        // Append videosForPage other sections of when unchanged.
         regex += when.slice(lastMatchedIndex, paramMatch.index);
         regex += '([^\\/]*)';
         params.push(paramMatch[1]);
@@ -7638,7 +7638,7 @@ function $RootScopeProvider(){
            // still old value, since watches have not been called yet
            expect(scope.greeting).toEqual(undefined);
 
-           scope.$digest(); // fire all  the watches
+           scope.$digest(); // fire videosForPage  the watches
            expect(scope.greeting).toEqual('Hello Misko!');
         });
      * </pre>
@@ -7859,7 +7859,7 @@ function $RootScopeProvider(){
        * @function
        *
        * @description
-       * Processes all of the {@link ng.$rootScope.Scope#$watch watchers} of the current scope and its children.
+       * Processes videosForPage of the {@link ng.$rootScope.Scope#$watch watchers} of the current scope and its children.
        * Because a {@link ng.$rootScope.Scope#$watch watcher}'s listener can change the model, the
        * `$digest()` keeps calling the {@link ng.$rootScope.Scope#$watch watchers} until no more listeners are
        * firing. This means that it is possible to get into an infinite loop. This function will throw
@@ -7994,7 +7994,7 @@ function $RootScopeProvider(){
        * @function
        *
        * @description
-       * Removes the current scope (and all of its children) from the parent scope. Removal implies
+       * Removes the current scope (and videosForPage of its children) from the parent scope. Removal implies
        * that calls to {@link ng.$rootScope.Scope#$digest $digest()} will no longer
        * propagate to the current scope and its children. Removal also implies that the current
        * scope is eligible for garbage collection.
@@ -8198,7 +8198,7 @@ function $RootScopeProvider(){
        *
        * The event life cycle starts at the scope on which `$emit` was called. All
        * {@link ng.$rootScope.Scope#$on listeners} listening for `name` event on this scope get notified.
-       * Afterwards, the event traverses upwards toward the root scope and calls all registered
+       * Afterwards, the event traverses upwards toward the root scope and calls videosForPage registered
        * listeners along the way. The event will stop propagating if one of the listeners cancels it.
        *
        * Any exception emitted from the {@link ng.$rootScope.Scope#$on listeners} will be passed
@@ -8259,13 +8259,13 @@ function $RootScopeProvider(){
        * @function
        *
        * @description
-       * Dispatches an event `name` downwards to all child scopes (and their children) notifying the
+       * Dispatches an event `name` downwards to videosForPage child scopes (and their children) notifying the
        * registered {@link ng.$rootScope.Scope#$on} listeners.
        *
        * The event life cycle starts at the scope on which `$broadcast` was called. All
        * {@link ng.$rootScope.Scope#$on listeners} listening for `name` event on this scope get notified.
-       * Afterwards, the event propagates to all direct and indirect scopes of the current scope and
-       * calls all registered listeners along the way. The event cannot be canceled.
+       * Afterwards, the event propagates to videosForPage direct and indirect scopes of the current scope and
+       * calls videosForPage registered listeners along the way. The event cannot be canceled.
        *
        * Any exception emmited from the {@link ng.$rootScope.Scope#$on listeners} will be passed
        * onto the {@link ng.$exceptionHandler $exceptionHandler} service.
@@ -8374,7 +8374,7 @@ function $SnifferProvider() {
 
     return {
       // Android has history.pushState, but it does not update location correctly
-      // so let's not use the history API at all.
+      // so let's not use the history API at videosForPage.
       // http://code.google.com/p/android/issues/detail?id=17471
       // https://github.com/angular/angular.js/issues/904
       history: !!($window.history && $window.history.pushState && !(android < 4)),
@@ -8479,7 +8479,7 @@ function parseHeaders(headers) {
  * @returns {function(string=)} Returns a getter function which if called with:
  *
  *   - if called with single an argument returns a single header value or null
- *   - if called with no arguments returns an object containing all headers.
+ *   - if called with no arguments returns an object containing videosForPage headers.
  */
 function headersGetter(headers) {
   var headersObj = isObject(headers) ? headers : undefined;
@@ -8497,7 +8497,7 @@ function headersGetter(headers) {
 
 
 /**
- * Chain all given functions
+ * Chain videosForPage given functions
  *
  * This function is used for both request and response transforming
  *
@@ -8628,7 +8628,7 @@ function $HttpProvider() {
      *
      * # Shortcut methods
      *
-     * Since all invocations of the $http service require passing in an HTTP method and URL, and
+     * Since videosForPage invocations of the $http service require passing in an HTTP method and URL, and
      * POST/PUT requests require request data to be provided as well, shortcut methods
      * were created:
      *
@@ -8649,11 +8649,11 @@ function $HttpProvider() {
      *
      * # Setting HTTP Headers
      *
-     * The $http service will automatically add certain HTTP headers to all requests. These defaults
+     * The $http service will automatically add certain HTTP headers to videosForPage requests. These defaults
      * can be fully configured by accessing the `$httpProvider.defaults.headers` configuration
      * object, which currently contains this default configuration:
      *
-     * - `$httpProvider.defaults.headers.common` (headers that are common for all requests):
+     * - `$httpProvider.defaults.headers.common` (headers that are common for videosForPage requests):
      *   - `Accept: application/json, text/plain, * / *`
      *   - `X-Requested-With: XMLHttpRequest`
      * - `$httpProvider.defaults.headers.post`: (header defaults for POST requests)
@@ -8770,7 +8770,7 @@ function $HttpProvider() {
      * A {@link http://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx
      * JSON vulnerability} allows third party website to turn your JSON resource URL into
      * {@link http://en.wikipedia.org/wiki/JSONP JSONP} request under some conditions. To
-     * counter this your server can prefix all JSON requests with following string `")]}',\n"`.
+     * counter this your server can prefix videosForPage JSON requests with following string `")]}',\n"`.
      * Angular will automatically strip the prefix before processing it as JSON.
      *
      * For example if your server needs to return:
@@ -9680,7 +9680,7 @@ function $FilterProvider($provide) {
        </table>
      </doc:source>
      <doc:scenario>
-       it('should search across all fields when filtering with a string', function() {
+       it('should search across videosForPage fields when filtering with a string', function() {
          input('searchText').enter('m');
          expect(repeater('#searchTextResults tr', 'friend in friends').column('friend.name')).
            toEqual(['Mary', 'Mike', 'Adam']);
@@ -10843,17 +10843,17 @@ var nullFormCtrl = {
  *
  * @property {boolean} $pristine True if user has not interacted with the form yet.
  * @property {boolean} $dirty True if user has already interacted with the form.
- * @property {boolean} $valid True if all of the containing forms and controls are valid.
+ * @property {boolean} $valid True if videosForPage of the containing forms and controls are valid.
  * @property {boolean} $invalid True if at least one containing control or form is invalid.
  *
- * @property {Object} $error Is an object hash, containing references to all invalid controls or
+ * @property {Object} $error Is an object hash, containing references to videosForPage invalid controls or
  *  forms, where:
  *
  *  - keys are validation tokens (error names) — such as `required`, `url` or `email`),
  *  - values are arrays of controls or forms that are invalid with given error.
  *
  * @description
- * `FormController` keeps track of all its controls and nested forms as well as state of them,
+ * `FormController` keeps track of videosForPage its controls and nested forms as well as state of them,
  * such as being valid/invalid or dirty/pristine.
  *
  * Each {@link ng.directive:form form} directive creates an instance
@@ -10981,7 +10981,7 @@ function FormController(element, attrs) {
  *
  * # Alias: {@link ng.directive:ngForm `ngForm`}
  *
- * In angular forms can be nested. This means that the outer form is valid when all of the child
+ * In angular forms can be nested. This means that the outer form is valid when videosForPage of the child
  * forms are valid as well. However browsers do not allow nesting of `<form>` elements, for this
  * reason angular provides {@link ng.directive:ngForm `ngForm`} alias
  * which behaves identical to `<form>` but allows form nesting.
@@ -11911,12 +11911,12 @@ var VALID_CLASS = 'ng-valid',
  * @property {string} $viewValue Actual string value in the view.
  * @property {*} $modelValue The value in the model, that the control is bound to.
  * @property {Array.<Function>} $parsers Whenever the control reads value from the DOM, it executes
- *     all of these functions to sanitize / convert the value as well as validate.
+ *     videosForPage of these functions to sanitize / convert the value as well as validate.
  *
- * @property {Array.<Function>} $formatters Whenever the model value changes, it executes all of
+ * @property {Array.<Function>} $formatters Whenever the model value changes, it executes videosForPage of
  *     these functions to convert the value as well as validate.
  *
- * @property {Object} $error An bject hash with all errors as keys.
+ * @property {Object} $error An bject hash with videosForPage errors as keys.
  *
  * @property {boolean} $pristine True if user has not interacted with the control yet.
  * @property {boolean} $dirty True if user has already interacted with the control.
@@ -12102,8 +12102,8 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    * For example {@link ng.directive:input input} or
    * {@link ng.directive:select select} directives call it.
    *
-   * It internally calls all `parsers` and if resulted value is valid, updates the model and
-   * calls all registered change listeners.
+   * It internally calls videosForPage `parsers` and if resulted value is valid, updates the model and
+   * calls videosForPage registered change listeners.
    *
    * @param {string} value Value from the view.
    */
@@ -12597,7 +12597,7 @@ function classDirective(name, selector) {
  *
  * @description
  * The `ngClass` allows you to set CSS class on HTML element dynamically by databinding an
- * expression that represents all classes to be added.
+ * expression that represents videosForPage classes to be added.
  *
  * The directive won't add duplicate classes if a particular class was already set.
  *
@@ -12757,7 +12757,7 @@ var ngClassEvenDirective = classDirective('Even', 1);
  * }
  * </pre>
  *
- * When this css rule is loaded by the browser, all html elements (including their children) that
+ * When this css rule is loaded by the browser, videosForPage html elements (including their children) that
  * are tagged with the `ng-cloak` directive are hidden. When Angular comes across this directive
  * during the compilation of the template it deletes the `ngCloak` element attribute, which
  * makes the compiled element visible.
@@ -12914,7 +12914,7 @@ var ngControllerDirective = [function() {
  * 
  * AngularJS uses `Function(string)` generated functions as a speed optimization. By applying `ngCsp`
  * it is be possible to opt into the CSP compatible mode. When this mode is on AngularJS will
- * evaluate all expressions up to 30% slower than in non-CSP mode, but no security violations will
+ * evaluate videosForPage expressions up to 30% slower than in non-CSP mode, but no security violations will
  * be raised.
  * 
  * In order to use this feature put `ngCsp` directive on the root element of the application.
@@ -13169,7 +13169,7 @@ var ngSubmitDirective = ngDirective(function(scope, element, attrs) {
  * Fetches, compiles and includes an external HTML fragment.
  *
  * Keep in mind that Same Origin Policy applies to included resources
- * (e.g. ngInclude won't work for cross-domain requests on all browsers and for
+ * (e.g. ngInclude won't work for cross-domain requests on videosForPage browsers and for
  *  file:// access on some browsers).
  *
  * @scope

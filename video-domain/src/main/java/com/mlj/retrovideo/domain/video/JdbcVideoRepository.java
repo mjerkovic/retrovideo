@@ -20,12 +20,12 @@ public class JdbcVideoRepository {
     }
 
     public void addVideo(VideoAdded event) {
-        jdbcTemplate.update("insert into videos (videoId, title, year, duration) values (?, ?, ?, ?)",
-                event.getVideoId(), event.getTitle(), event.getYear(), event.getDuration());
+        jdbcTemplate.update("insert into videos (videoId, title, year, country, duration) values (?, ?, ?, ?, ?)",
+                event.getVideoId(), event.getTitle(), event.getYear(), event.getCountry(), event.getDuration());
     }
 
     public VideoView byId(String videoId) {
-        return jdbcTemplate.queryForObject("select videoId, title, year, duration from videos where videoId=?",
+        return jdbcTemplate.queryForObject("select videoId, title, year, country, duration from videos where videoId=?",
                 new RowMapper<VideoView>() {
             @Override
             public VideoView mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -33,6 +33,7 @@ public class JdbcVideoRepository {
                 result.setVideoId(resultSet.getString("videoId"));
                 result.setTitle(resultSet.getString("title"));
                 result.setYear(resultSet.getInt("year"));
+                result.setCountry(resultSet.getString("country"));
                 result.setDuration(resultSet.getInt("duration"));
                 return result;
             }
@@ -47,6 +48,7 @@ public class JdbcVideoRepository {
                 result.setVideoId(resultSet.getString("videoId"));
                 result.setTitle(resultSet.getString("title"));
                 result.setYear(resultSet.getInt("year"));
+                result.setCountry(resultSet.getString("country"));
                 result.setDuration(resultSet.getInt("duration"));
                 return result;
             }

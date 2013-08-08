@@ -4,10 +4,10 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
-import java.util.List;
 import java.util.UUID;
 
 import com.mlj.retrovideo.domain.video.AddVideo;
+import com.mlj.retrovideo.domain.video.VideoList;
 import com.mlj.retrovideo.domain.video.VideoService;
 import com.mlj.retrovideo.domain.video.VideoView;
 import org.apache.commons.lang3.text.WordUtils;
@@ -37,13 +37,13 @@ public class VideoController {
     @ResponseStatus(HttpStatus.CREATED)
     public void addVideo(@RequestBody VideoDto videoDto) {
         videoService.addVideo(new AddVideo(UUID.randomUUID().toString(), WordUtils.capitalizeFully(videoDto.getTitle()),
-                videoDto.getYear(), videoDto.getDuration()));
+                videoDto.getYear(), videoDto.getCountry(), videoDto.getDuration()));
     }
 
-    @RequestMapping(method = GET, value = "/video", produces = "application/json")
+    @RequestMapping(method = GET, value = "/video/page/{pageNo}", produces = "application/json")
     @ResponseBody
-    public List<VideoView> all() {
-        return videoService.allVideos();
+    public VideoList videosByPage(@PathVariable int pageNo) {
+        return videoService.videosForPage(pageNo);
     }
 
     @RequestMapping(method = GET, value = "/video/{videoId}", produces = "application/json")

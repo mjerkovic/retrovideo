@@ -11,6 +11,7 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -29,16 +30,18 @@ public class ElasticVideoRepository {
     public void addVideo(VideoAdded event) {
         try {
             XContentBuilder builder = XContentFactory.jsonBuilder().startObject().field("videoId", event.getVideoId())
-                    .field("title", event.getTitle()).field("year", event.getYear()).field("duration", event.getDuration()).endObject();
+                    .field("title", event.getTitle()).field("year", event.getYear()).field("country", event.getCountry())
+                    .field("duration", event.getDuration()).endObject();
             client.prepareIndex("retrovideo", "videos", event.getVideoId()).setSource(builder).setRefresh(true).execute().actionGet();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public List<VideoView> all() {
+    public VideoList videosForPage(int pageNo) {
         SearchResponse searchResponse = client.prepareSearch("retrovideo").setTypes("videos")
-                .setQuery(QueryBuilders.matchAllQuery()).execute().actionGet();
+                .setQuery(QueryBuilders.matchAllQuery()).setFrom(pageNo).addSort("duration", SortOrder.ASC)
+                .execute().actionGet();
         List<VideoView> videos = Lists.newArrayList();
         for (SearchHit hit : searchResponse.hits().getHits()) {
             try {
@@ -47,7 +50,7 @@ public class ElasticVideoRepository {
                 throw new RuntimeException(e);
             }
         }
-        return videos;
+        return new VideoList(searchResponse.hits().totalHits(), videos);
     }
 
 

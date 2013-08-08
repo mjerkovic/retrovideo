@@ -3,6 +3,7 @@ CREATE TABLE VIDEOS
   videoId VARCHAR(50) NOT NULL,
   title VARCHAR(50) NOT NULL,
   year INTEGER NOT NULL,
+  country VARCHAR(50),
   duration INTEGER NOT NULL
 );
 
