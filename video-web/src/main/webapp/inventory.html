@@ -1,12 +1,5 @@
 <div class="container">
-    <form ng-submit="submit()">
-        <div class="span2">
-            <select name="video" ng-model="newstock.title"
-                    ng-options="video.videoId as video.title for video in videos|orderBy:'title'"></select>
-            <input type="text" name="qty" ng-model="newstock.quantity"/>
-            <input type="submit" id="submit" value="Submit"/>
-        </div>
-    </form>
+    <fileupload></fileupload>
 </div>
 
 <table class="table">

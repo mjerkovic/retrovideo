@@ -1,5 +1,35 @@
 var app = angular.module('retrovideo', ['ui.bootstrap', '$strap.directives']);
 
+app.directive('fileupload', function () {
+    return {
+        restrict: 'E',
+
+        template: '<span>' +
+            '<label for="displayImg">Upload image</label>' +
+            '<input type="file" id="displayImg" onchange="angular.element(this).scope().setFile(this)">' +
+            '<button class="btn btn-primary" ng-click="uploadFile()">Save</button>' +
+            '</span>',
+
+        replace: true,
+
+        controller: function ($scope) {
+
+            $scope.setFile = function (elem) {
+                $scope.inputField = elem;
+                $scope.file = elem.files[0];
+            };
+
+            $scope.uploadFile = function () {
+                var fd = new FormData(), xhr = new XMLHttpRequest();
+                fd.append("file", $scope.file);
+                xhr.open("POST", "/upload");
+                xhr.send(fd);
+                $scope.inputField.value = "";
+            };
+        }
+    };
+});
+
 app.controller('NewVideoCtrl', function($scope, $http, $location) {
 
     $scope.submit = function() {
@@ -47,6 +77,22 @@ app.controller('InventoryCtrl', function($scope, $http) {
             return video.videoId == $scope.newstock.title;
         });
         $scope.stock.push({ title: selectedVideo[0].title, quantity: $scope.newstock.quantity });
+    }
+
+    $scope.uploadFile = function () {
+        return $http({
+                method: "POST",
+                url: "/upload",
+                headers: {
+                    "Content - Type": undefined
+                },
+                data: $scope.fileToUpload,
+                transformRequest: function (data) {
+                    return data;
+                }
+            }
+        )
+            ;
     }
 
 });

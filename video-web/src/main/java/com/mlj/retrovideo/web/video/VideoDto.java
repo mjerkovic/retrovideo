@@ -50,7 +50,7 @@ public class VideoDto {
         return "VideoDto{" +
                 "title='" + title + '\'' +
                 ", year=" + year +
-                ", country" + country +
+                ", country='" + country + '\'' +
                 ", duration=" + duration +
                 '}';
     }

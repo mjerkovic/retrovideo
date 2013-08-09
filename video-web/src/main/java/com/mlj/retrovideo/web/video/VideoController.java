@@ -4,14 +4,21 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.UUID;
 
 import com.mlj.retrovideo.domain.video.AddVideo;
 import com.mlj.retrovideo.domain.video.VideoList;
 import com.mlj.retrovideo.domain.video.VideoService;
 import com.mlj.retrovideo.domain.video.VideoView;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.axonframework.eventhandling.replay.ReplayingCluster;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -26,11 +33,13 @@ public class VideoController {
 
     private final VideoService videoService;
     private final ReplayingCluster replayingCluster;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public VideoController(VideoService videoService, ReplayingCluster replayingCluster) {
+    public VideoController(VideoService videoService, ReplayingCluster replayingCluster, ObjectMapper objectMapper) {
         this.videoService = videoService;
         this.replayingCluster = replayingCluster;
+        this.objectMapper = objectMapper;
     }
 
     @RequestMapping(method = POST, value = "/video", consumes = "application/json")
@@ -38,6 +47,33 @@ public class VideoController {
     public void addVideo(@RequestBody VideoDto videoDto) {
         videoService.addVideo(new AddVideo(UUID.randomUUID().toString(), WordUtils.capitalizeFully(videoDto.getTitle()),
                 videoDto.getYear(), videoDto.getCountry(), videoDto.getDuration()));
+    }
+
+    @RequestMapping(method = POST, value = "/upload")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void uploadFile(UploadItem item) {
+        System.out.println("file.getName() = " + item.getFile().getName());
+        StringReader reader = null;
+        BufferedReader br = null;
+        VideoDto video = null;
+        String videoJson;
+        try {
+            reader = new StringReader(new String(item.getFile().getBytes()));
+            br = new BufferedReader(reader);
+            while ((videoJson = br.readLine()) != null) {
+                video = objectMapper.readValue(videoJson, VideoDto.class);
+                System.out.println("video = " + video);
+            }
+        } catch (JsonMappingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (JsonParseException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } finally {
+            IOUtils.closeQuietly(br);
+            IOUtils.closeQuietly(reader);
+        }
     }
 
     @RequestMapping(method = GET, value = "/video/page/{pageNo}", produces = "application/json")
