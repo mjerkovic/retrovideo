@@ -55,14 +55,15 @@ public class VideoController {
         System.out.println("file.getName() = " + item.getFile().getName());
         StringReader reader = null;
         BufferedReader br = null;
-        VideoDto video = null;
+        VideoDto videoDto = null;
         String videoJson;
         try {
             reader = new StringReader(new String(item.getFile().getBytes()));
             br = new BufferedReader(reader);
             while ((videoJson = br.readLine()) != null) {
-                video = objectMapper.readValue(videoJson, VideoDto.class);
-                System.out.println("video = " + video);
+                videoDto = objectMapper.readValue(videoJson, VideoDto.class);
+                videoService.addVideo(new AddVideo(UUID.randomUUID().toString(), WordUtils.capitalizeFully(videoDto.getTitle()),
+                        videoDto.getYear(), videoDto.getCountry(), videoDto.getDuration()));
             }
         } catch (JsonMappingException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

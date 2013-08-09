@@ -18,6 +18,9 @@ import org.elasticsearch.common.io.stream.OutputStreamStreamOutput;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.facet.Facet;
+import org.elasticsearch.search.facet.FacetBuilders;
+import org.elasticsearch.search.facet.terms.TermsFacetBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -47,9 +50,10 @@ public class ElasticVideoRepository {
     }
 
     public VideoList videosForPage(int pageNo) {
+        TermsFacetBuilder facetBuilder = FacetBuilders.termsFacet("f").field("country");
         SearchResponse searchResponse = client.prepareSearch("retrovideo").setTypes("videos")
-                .setQuery(QueryBuilders.matchAllQuery()).setFrom(pageNo).addSort("duration", SortOrder.ASC)
-                .execute().actionGet();
+                .setQuery(QueryBuilders.matchAllQuery()).setFrom(pageNo).addSort("title.sorted", SortOrder.ASC)
+                .addFacet(facetBuilder).execute().actionGet();
         List<VideoView> videos = Lists.newArrayList();
         for (SearchHit hit : searchResponse.hits().getHits()) {
             try {
@@ -58,6 +62,7 @@ public class ElasticVideoRepository {
                 throw new RuntimeException(e);
             }
         }
+        Facet facet = searchResponse.facets().facetsAsMap().get("f");
         return new VideoList(searchResponse.hits().totalHits(), videos);
     }
 
@@ -75,7 +80,7 @@ public class ElasticVideoRepository {
     private void createIndex(String index) {
         System.out.println("Creating index");
         CreateIndexResponse response = client.admin().indices().create(new CreateIndexRequest(index)
-                .mapping("video", buildJsonMappings())).actionGet();
+                .mapping("videos", buildJsonMappings())).actionGet();
         try {
             response.writeTo(new OutputStreamStreamOutput(System.out));
         } catch (IOException e) {
@@ -85,54 +90,29 @@ public class ElasticVideoRepository {
 
     private XContentBuilder buildJsonMappings() {
         try {
+            return jsonBuilder()
+                    .startObject()
+                        .startObject("videos")
+                            .startObject("properties")
+                                .startObject("title").field("type", "multi_field")
+                                    .startObject("fields")
+                                        .startObject("title").field("type", "string").field("index", "analyzed").endObject()
+                                        .startObject("sorted").field("type", "string").field("index", "not_analyzed").endObject()
+                                    .endObject()
+                                .endObject()
 /*
-            return jsonBuilder()
-                    .startObject()
-                    .startObject("video")
-                    .startObject("properties")
-                    .startObject("title").field("type", "multi_field")
-                    .startObject("fields")
-                        .startObject("title").field("type", "string").field("index", "analyzed").endObject()
-                        .startObject("titlesort").field("type", "string").field("index", "not_analyzed").endObject()
-                    .endObject()
-                    .endObject()
-                    .endObject()
-                    .endObject()
-                    .endObject();
+                                .startObject("year").field("type", "integer").endObject()
+                                .startObject("country").field("type", "string").endObject()
+                                .startObject("duration").field("type", "integer").field("index", "not_analyzed").endObject()
 */
-            return jsonBuilder()
-                    .startObject()
-                    .startObject("video")
-                    .startObject("properties")
-                    .startObject("title").field("type", "multi_field")
-                    .startObject("fields")
-                        .startObject("title").field("type", "string").field("index", "analyzed").endObject()
-                        .startObject("sorted").field("type", "string").field("index", "not_analyzed").endObject()
-                    .endObject()
-                    .endObject()
-                    .endObject()
-                    .endObject()
+                            .endObject()
+                        .endObject()
                     .endObject();
         } catch (IOException e) {
             throw new IllegalStateException("Could not build index mappings", e);
         }
     }
 
-/*
-{
-    "tweet" : {
-        "properties" : {
-            "name" : {
-                "type" : "multi_field",
-                "fields" : {
-                    "name" : {"type" : "string", "index" : "analyzed"},
-                    "untouched" : {"type" : "string", "index" : "not_analyzed"}
-                }
-            }
-        }
-    }
-}
-*/
     private void deleteIndex(String index) {
         System.out.println("Deleting index");
         DeleteIndexResponse response = client.admin().indices().delete(new DeleteIndexRequest(index)).actionGet();

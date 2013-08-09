@@ -7,6 +7,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import com.mlj.retrovideo.domain.video.AddVideo;
 import com.mlj.retrovideo.domain.video.VideoService;
 import org.axonframework.eventhandling.replay.ReplayingCluster;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -18,11 +19,13 @@ public class VideoControllerTest {
     private VideoService videoService;
     @Mock
     private ReplayingCluster replayingCluster;
+    @Mock
+    private ObjectMapper objectMapper;
 
     @Before
     public void givenAVideoController() throws Exception {
         initMocks(this);
-        controller = new VideoController(videoService, replayingCluster);
+        controller = new VideoController(videoService, replayingCluster, objectMapper);
     }
 
     @Test
