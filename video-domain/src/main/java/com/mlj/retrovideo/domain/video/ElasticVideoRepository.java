@@ -2,12 +2,15 @@ package com.mlj.retrovideo.domain.video;
 
 import static com.google.common.collect.FluentIterable.from;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+import static org.elasticsearch.search.facet.FacetBuilders.termsFacet;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Maps;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
@@ -20,6 +23,8 @@ import org.elasticsearch.common.io.stream.OutputStreamStreamOutput;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.facet.terms.TermsFacet;
+import org.elasticsearch.search.facet.terms.TermsFacetBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -48,7 +53,8 @@ public class ElasticVideoRepository {
     }
 
     public VideoList all() {
-        return videosForPage(1, searchFileRepository.createSearchFile(findAllVideoIds()));
+        VideoList videos = videosForPage(1, searchFileRepository.createSearchFile(findAllVideoIds()));
+        return new VideoList(videos, facetsByCountry());
     }
 
     public VideoList videosForPage(int pageNo, String searchFile) {
@@ -117,6 +123,12 @@ public class ElasticVideoRepository {
                                         .startObject("sorted").field("type", "string").field("index", "not_analyzed").endObject()
                                     .endObject()
                                 .endObject()
+                                .startObject("country").field("type", "multi_field")
+                                    .startObject("fields")
+                                    .startObject("country").field("type", "string").field("index", "analyzed").endObject()
+                                    .startObject("original").field("type", "string").field("index", "not_analyzed").endObject()
+                                    .endObject()
+                                .endObject()
                             .endObject()
                         .endObject()
                     .endObject();
@@ -150,6 +162,19 @@ public class ElasticVideoRepository {
                 return searchHit.id();
             }
         }).toImmutableList();
+    }
+
+    private Map<String, Integer> facetsByCountry() {
+        TermsFacetBuilder facetBuilder = termsFacet("countries").field("country.original").size(numberOfVideosInIndex());
+        SearchResponse searchResponse = client.prepareSearch("retrovideo").setTypes("videos")
+                .setQuery(QueryBuilders.matchAllQuery()).addFacet(facetBuilder)
+                .addSort("country.original", SortOrder.ASC).execute().actionGet();
+        TermsFacet termsFacet = (TermsFacet) searchResponse.facets().facetsAsMap().get("countries");
+        Map<String, Integer> facets = Maps.newTreeMap();
+        for (TermsFacet.Entry entry : termsFacet) {
+            facets.put(entry.term(), entry.count());
+        }
+        return facets;
     }
 
     private int numberOfVideosInIndex() {

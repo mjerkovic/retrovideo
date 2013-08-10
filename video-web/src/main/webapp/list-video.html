@@ -1,7 +1,12 @@
 <div class="row">
     <div class="col-lg-3">
         <div class="well">
-            <h1>Testing</h1>
+            <ul class="nav nav-pills nav-stacked" ng-repeat="facet in facets|orderBy:'-count'">
+                <li>
+                    {{ facet.name }}
+                    <span class="badge pull-right">{{ facet.count }}</span>
+                </li>
+            </ul>
         </div>
     </div>
     <div class="col-lg-9">
