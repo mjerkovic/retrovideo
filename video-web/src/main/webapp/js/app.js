@@ -55,12 +55,19 @@ app.controller('ListVideosCtrl', function($scope, $http) {
     });
 
     $scope.newPage = function(page) {
-        $http.get("/video/page/"+(page-1)).success(function(data) {
+        var config = {
+            method: 'GET',
+            url: '/video/page/' + page,
+            params: { 'searchKey': $scope.videoList.searchKey }
+        };
+        $http(config).success(function(data) {
             $scope.videoList = data;
         });
     }
 
-    $scope.newPage(1);
+    $http.get("/video").success(function(data) {
+        $scope.videoList = data;
+    });
 
 });
 

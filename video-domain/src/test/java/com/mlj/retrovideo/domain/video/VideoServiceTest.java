@@ -1,5 +1,6 @@
 package com.mlj.retrovideo.domain.video;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -8,7 +9,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import com.google.common.collect.Lists;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,11 +41,11 @@ public class VideoServiceTest {
 
     @Test
     public void itShouldReturnAllVideos() throws Exception {
-        VideoList allVideos = new VideoList(1, Lists.newArrayList(mock(VideoView.class), mock(VideoView.class)));
+        VideoList allVideos = new VideoList(1, "searchKey", 2l, newArrayList(mock(VideoView.class), mock(VideoView.class)));
         //when(videoRepository.videosForPage()).thenReturn(videosForPage);
-        when(elasticVideoRepository.videosForPage(1)).thenReturn(allVideos);
+        when(elasticVideoRepository.videosForPage(1, "searchKey")).thenReturn(allVideos);
 
-        assertThat(videoService.videosForPage(1), is(equalTo(allVideos)));
+        assertThat(videoService.videosForPage(1, "searchKey"), is(equalTo(allVideos)));
     }
 
     @Test

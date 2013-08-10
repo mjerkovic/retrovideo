@@ -1,11 +1,13 @@
 package com.mlj.retrovideo.domain.video;
 
+import static com.google.common.collect.FluentIterable.from;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
 import java.util.List;
 
-import com.google.common.collect.Lists;
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
@@ -18,9 +20,6 @@ import org.elasticsearch.common.io.stream.OutputStreamStreamOutput;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.facet.Facet;
-import org.elasticsearch.search.facet.FacetBuilders;
-import org.elasticsearch.search.facet.terms.TermsFacetBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -30,40 +29,58 @@ public class ElasticVideoRepository {
 
     private final Client client;
     private final ObjectMapper objectMapper;
+    private final SearchFileRepository searchFileRepository;
 
     @Autowired
-    public ElasticVideoRepository(Client client, ObjectMapper objectMapper) {
+    public ElasticVideoRepository(Client client, ObjectMapper objectMapper, SearchFileRepository searchFileRepository) {
         this.client = client;
         this.objectMapper = objectMapper;
+        this.searchFileRepository = searchFileRepository;
         prepareIndex("retrovideo");
     }
 
     public void addVideo(VideoAdded event) {
         try {
-            XContentBuilder builder = jsonBuilder().startObject().field("videoId", event.getVideoId())
-                    .field("title", event.getTitle()).field("year", event.getYear()).field("country", event.getCountry())
-                    .field("duration", event.getDuration()).endObject();
-            client.prepareIndex("retrovideo", "videos", event.getVideoId()).setSource(builder).setRefresh(true).execute().actionGet();
+            addVideoToIndex(event);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public VideoList videosForPage(int pageNo) {
-        TermsFacetBuilder facetBuilder = FacetBuilders.termsFacet("f").field("country");
-        SearchResponse searchResponse = client.prepareSearch("retrovideo").setTypes("videos")
-                .setQuery(QueryBuilders.matchAllQuery()).setFrom(pageNo).addSort("title.sorted", SortOrder.ASC)
-                .addFacet(facetBuilder).execute().actionGet();
-        List<VideoView> videos = Lists.newArrayList();
-        for (SearchHit hit : searchResponse.hits().getHits()) {
-            try {
-                videos.add(objectMapper.readValue(hit.sourceAsString(), VideoView.class));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+    public VideoList all() {
+        return videosForPage(1, searchFileRepository.createSearchFile(findAllVideoIds()));
+    }
+
+    public VideoList videosForPage(int pageNo, String searchFile) {
+        List<String> ids = searchFileRepository.getIdsFrom(searchFile);
+        SearchResponse searchResponse = searchByIdsForPage(ids, pageNo);
+        return new VideoList(pageNo, searchFile, ids.size(), videosFromResponse(searchResponse));
+    }
+
+    private SearchResponse searchByIdsForPage(List<String> ids, int pageNo) {
+        return client.prepareSearch("retrovideo").setTypes("videos")
+                    .setQuery(QueryBuilders.idsQuery("videos").addIds(idsForPage(ids, pageNo)))
+                    .addSort("title.sorted", SortOrder.ASC)
+                    .execute().actionGet();
+    }
+
+    private List<VideoView> videosFromResponse(SearchResponse searchResponse) {
+        return from(searchResponse.hits()).transform(new Function<SearchHit, VideoView>() {
+            @Override
+            public VideoView apply(SearchHit hit) {
+                try {
+                    return objectMapper.readValue(hit.sourceAsString(), VideoView.class);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        }
-        Facet facet = searchResponse.facets().facetsAsMap().get("f");
-        return new VideoList(searchResponse.hits().totalHits(), videos);
+        }).toImmutableList();
+    }
+
+    private String[] idsForPage(List<String> ids, int pageNo) {
+        int min = (pageNo - 1) * 10;
+        int max = Math.min(min + 10, ids.size());
+        return ids.subList(min, max).toArray(new String[max - min]);
     }
 
     private void prepareIndex(String index) {
@@ -84,7 +101,7 @@ public class ElasticVideoRepository {
         try {
             response.writeTo(new OutputStreamStreamOutput(System.out));
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
     }
 
@@ -100,11 +117,6 @@ public class ElasticVideoRepository {
                                         .startObject("sorted").field("type", "string").field("index", "not_analyzed").endObject()
                                     .endObject()
                                 .endObject()
-/*
-                                .startObject("year").field("type", "integer").endObject()
-                                .startObject("country").field("type", "string").endObject()
-                                .startObject("duration").field("type", "integer").field("index", "not_analyzed").endObject()
-*/
                             .endObject()
                         .endObject()
                     .endObject();
@@ -119,6 +131,30 @@ public class ElasticVideoRepository {
         if (!response.acknowledged()) {
             throw new IllegalStateException("Did not receive acknowledgement of index deletion.");
         }
+    }
+
+    private void addVideoToIndex(VideoAdded event) throws IOException {
+        XContentBuilder builder = jsonBuilder().startObject().field("videoId", event.getVideoId())
+                .field("title", event.getTitle()).field("year", event.getYear()).field("country", event.getCountry())
+                .field("duration", event.getDuration()).endObject();
+        client.prepareIndex("retrovideo", "videos", event.getVideoId()).setSource(builder).setRefresh(true).execute().actionGet();
+    }
+
+    private List<String> findAllVideoIds() {
+        SearchResponse searchResponse = client.prepareSearch("retrovideo").setTypes("videos")
+                .setQuery(QueryBuilders.matchAllQuery()).setSize(numberOfVideosInIndex())
+                .addSort("title.sorted", SortOrder.ASC).execute().actionGet();
+        return FluentIterable.<SearchHit>from(searchResponse.hits()).transform(new Function<SearchHit, String>() {
+            @Override
+            public String apply(SearchHit searchHit) {
+                return searchHit.id();
+            }
+        }).toImmutableList();
+    }
+
+    private int numberOfVideosInIndex() {
+        return (int) client.prepareCount("retrovideo").setTypes("videos")
+                .setQuery(QueryBuilders.matchAllQuery()).execute().actionGet().count();
     }
 
 }
