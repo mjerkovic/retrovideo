@@ -65,10 +65,24 @@ app.controller('ListVideosCtrl', function($scope, $http) {
         });
     }
 
+    $scope.searchByType = function() {
+        $http.get("/video/stats/" + $scope.category).success(function(data) {
+            $scope.facets = [];
+            for (var key in data.facets) {
+                if (data.facets.hasOwnProperty(key)) {
+                    $scope.facets.push({ "name": key, "count": data.facets[key] });
+                }
+            }
+        });
+    }
+
     $http.get("/video").success(function(data) {
         $scope.videoList = data;
     });
 
+    $scope.category = "country";
+    $scope.searchByType();
+/*
     $http.get("/video/stats/country").success(function(data) {
         $scope.facets = [];
         for (var key in data.facets) {
@@ -77,6 +91,7 @@ app.controller('ListVideosCtrl', function($scope, $http) {
             }
         }
     });
+*/
 
 });
 

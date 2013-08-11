@@ -52,8 +52,9 @@ public class ElasticVideoRepository {
         }
     }
 
-    public VideoBreakdown totalsByCountry() {
-        return new VideoBreakdown(facetsByCountry());
+    public VideoBreakdown totalsFor(String category) {
+        String adjustedCategory = (category.equals("country")) ? category + ".original" : category;
+        return new VideoBreakdown(facetsFor(adjustedCategory));
     }
 
     public VideoList all() {
@@ -167,12 +168,12 @@ public class ElasticVideoRepository {
         }).toImmutableList();
     }
 
-    private Map<String, Integer> facetsByCountry() {
-        TermsFacetBuilder facetBuilder = termsFacet("countries").field("country.original").size(numberOfVideosInIndex());
+    private Map<String, Integer> facetsFor(String category) {
+        TermsFacetBuilder facetBuilder = termsFacet("results").field(category).size(numberOfVideosInIndex());
         SearchResponse searchResponse = client.prepareSearch("retrovideo").setTypes("videos")
                 .setQuery(QueryBuilders.matchAllQuery()).addFacet(facetBuilder)
-                .addSort("country.original", SortOrder.ASC).execute().actionGet();
-        TermsFacet termsFacet = (TermsFacet) searchResponse.facets().facetsAsMap().get("countries");
+                .addSort(category, SortOrder.ASC).execute().actionGet();
+        TermsFacet termsFacet = (TermsFacet) searchResponse.facets().facetsAsMap().get("results");
         Map<String, Integer> facets = Maps.newTreeMap();
         for (TermsFacet.Entry entry : termsFacet) {
             facets.put(entry.term(), entry.count());

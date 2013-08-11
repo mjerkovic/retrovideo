@@ -57,7 +57,7 @@ public class VideoController {
         System.out.println("file.getName() = " + item.getFile().getName());
         StringReader reader = null;
         BufferedReader br = null;
-        VideoDto videoDto = null;
+        VideoDto videoDto;
         String videoJson;
         try {
             reader = new StringReader(new String(item.getFile().getBytes()));
@@ -91,10 +91,10 @@ public class VideoController {
         return videoService.videosForPage(pageNo, searchKey);
     }
 
-    @RequestMapping(method = GET, value = "/video/stats/country", produces = "application/json")
+    @RequestMapping(method = GET, value = "/video/stats/{category}", produces = "application/json")
     @ResponseBody
-    public VideoBreakdown totalsByCountry() {
-        return videoService.totalsByCountry();
+    public VideoBreakdown totals(@PathVariable String category) {
+        return videoService.totalsFor(category);
     }
 
     @RequestMapping(method = GET, value = "/video/{videoId}", produces = "application/json")

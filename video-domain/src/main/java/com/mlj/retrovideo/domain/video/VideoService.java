@@ -36,8 +36,8 @@ public class VideoService {
         return videoRepository.byId(videoId);
     }
 
-    public VideoBreakdown totalsByCountry() {
-        return elasticVideoRepository.totalsByCountry();
+    public VideoBreakdown totalsFor(String category) {
+        return elasticVideoRepository.totalsFor(category);
     }
 
 }

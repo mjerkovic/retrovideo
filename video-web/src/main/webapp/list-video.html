@@ -1,6 +1,13 @@
 <div class="row">
     <div class="col-lg-3">
         <div class="well facets">
+            <div>
+                <select ng-model="category" ng-change="searchByType()">
+                    <option value="country" selected>Country</option>
+                    <option value="year" selected>Year</option>
+                </select>
+            </div>
+            <br/>
             <ul class="nav nav-pills nav-stacked" ng-repeat="facet in facets|orderBy:'-count'">
                 <li>
                     {{ facet.name }}
@@ -30,7 +37,8 @@
             </tr>
             </tbody>
         </table>
-        <pagination class="pagination-sm" direction-links="false" num-pages="videoList.totalPages" current-page="videoList.page"
+        <pagination class="pagination-sm" direction-links="false" num-pages="videoList.totalPages"
+                    current-page="videoList.page"
                     on-select-page="newPage(page)"></pagination>
     </div>
 </div>
