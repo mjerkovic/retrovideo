@@ -52,9 +52,12 @@ public class ElasticVideoRepository {
         }
     }
 
+    public VideoBreakdown totalsByCountry() {
+        return new VideoBreakdown(facetsByCountry());
+    }
+
     public VideoList all() {
-        VideoList videos = videosForPage(1, searchFileRepository.createSearchFile(findAllVideoIds()));
-        return new VideoList(videos, facetsByCountry());
+        return videosForPage(1, searchFileRepository.createSearchFile(findAllVideoIds()));
     }
 
     public VideoList videosForPage(int pageNo, String searchFile) {
@@ -181,5 +184,4 @@ public class ElasticVideoRepository {
         return (int) client.prepareCount("retrovideo").setTypes("videos")
                 .setQuery(QueryBuilders.matchAllQuery()).execute().actionGet().count();
     }
-
 }

@@ -67,6 +67,9 @@ app.controller('ListVideosCtrl', function($scope, $http) {
 
     $http.get("/video").success(function(data) {
         $scope.videoList = data;
+    });
+
+    $http.get("/video/stats/country").success(function(data) {
         $scope.facets = [];
         for (var key in data.facets) {
             if (data.facets.hasOwnProperty(key)) {

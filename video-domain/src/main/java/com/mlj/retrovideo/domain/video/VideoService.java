@@ -36,4 +36,8 @@ public class VideoService {
         return videoRepository.byId(videoId);
     }
 
+    public VideoBreakdown totalsByCountry() {
+        return elasticVideoRepository.totalsByCountry();
+    }
+
 }

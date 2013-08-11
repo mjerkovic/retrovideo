@@ -10,6 +10,7 @@ import java.io.StringReader;
 import java.util.UUID;
 
 import com.mlj.retrovideo.domain.video.AddVideo;
+import com.mlj.retrovideo.domain.video.VideoBreakdown;
 import com.mlj.retrovideo.domain.video.VideoList;
 import com.mlj.retrovideo.domain.video.VideoService;
 import com.mlj.retrovideo.domain.video.VideoView;
@@ -88,6 +89,12 @@ public class VideoController {
     @ResponseBody
     public VideoList videosByPage(@PathVariable int pageNo, @RequestParam(value = "searchKey") String searchKey) {
         return videoService.videosForPage(pageNo, searchKey);
+    }
+
+    @RequestMapping(method = GET, value = "/video/stats/country", produces = "application/json")
+    @ResponseBody
+    public VideoBreakdown totalsByCountry() {
+        return videoService.totalsByCountry();
     }
 
     @RequestMapping(method = GET, value = "/video/{videoId}", produces = "application/json")
