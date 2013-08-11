@@ -39,6 +39,14 @@
                                     repository="employeeRepository"
                                     command-bus="commandBus"/>
 
+    <axon:event-sourcing-repository id="accountRepository"
+                                    aggregate-type="com.mlj.retrovideo.domain.account.Account"/>
+
+    <axon:aggregate-command-handler id="accountCommandHandler"
+                                    aggregate-type="com.mlj.retrovideo.domain.account.Account"
+                                    repository="accountRepository"
+                                    command-bus="commandBus"/>
+
     <axon:cluster id="cluster" default="true">
         <axon:replay-config/>
         <bean id="replayingCluster" class="org.axonframework.eventhandling.replay.ReplayingCluster">

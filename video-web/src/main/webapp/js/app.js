@@ -122,8 +122,15 @@ app.controller('InventoryCtrl', function($scope, $http) {
                     return data;
                 }
             }
-        )
-            ;
+        );
+    }
+
+});
+
+app.controller('AccountCtrl', function($scope, $http) {
+
+    $scope.createAccount = function() {
+        alert($scope.account);
     }
 
 });
@@ -134,5 +141,6 @@ app.config(['$routeProvider', function($routeProvider) {
         when('/newVideo', {templateUrl: 'new-video.html',   controller: 'NewVideoCtrl'}).
         when('/videos', {templateUrl: 'list-video.html', controller: 'ListVideosCtrl'}).
         when('/inventory', {templateUrl: 'inventory.html', controller: 'InventoryCtrl'}).
+        when('/accounts', {templateUrl: 'new-account.html', controller: 'AccountCtrl'}).
         otherwise({redirectTo: '/videos'});
 }]);

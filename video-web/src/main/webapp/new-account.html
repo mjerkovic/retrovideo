@@ -1,0 +1,34 @@
+<form ng-submit="createAccount()">
+    <fieldset>
+        <legend>New Account</legend>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" ng-model="account.title" placeholder="Mr/Mrs/Miss etc." required>
+        </div>
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control" id="firstName" ng-model="account.firstName" placeholder="First Name" required>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" id="lastName" ng-model="account.lastName" placeholder="Last Name" required>
+        </div>
+        <div class="form-group">
+            <label for="dateOfBirth">Date of Birth</label>
+            <input type="date" class="form-control" id="dateOfBirth" ng-model="account.dateOfBirth" placeholder="D.O.B" required>
+        </div>
+        <div class="form-group">
+            <label for="street">Street</label>
+            <input type="text" class="form-control" id="street" ng-model="account.street" placeholder="Street" required>
+        </div>
+        <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" class="form-control" id="city" ng-model="account.city" placeholder="City" required>
+        </div>
+        <div class="form-group">
+            <label for="postcode">Postcode</label>
+            <input type="text" class="form-control" id="postcode" ng-model="account.postcode" placeholder="Postcode" required>
+        </div>
+        <button type="submit" class="btn btn-default">Create</button>
+    </fieldset>
+</form>
