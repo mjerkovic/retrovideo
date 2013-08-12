@@ -15,6 +15,10 @@ public class Account extends AbstractAnnotatedAggregateRoot {
     private String city;
     private String postcode;
 
+    public Account() {
+
+    }
+
     @CommandHandler
     public Account(CreateAccount command) {
         apply(new AccountCreated(command.getAccountNo(), command.getTitle(), command.getFirstName(), command.getLastName(),
