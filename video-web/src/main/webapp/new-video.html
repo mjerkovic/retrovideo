@@ -1,23 +1,32 @@
-<div id="newVideo">
+<div class="container">
     <form ng-submit="submit()">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Title</th>
-                <th>Year</th>
-                <th>Country</th>
-                <th>Duration (min)</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><input type="text" name="title" ng-model="data.title"/></td>
-                <td><input type="text" name="year" ng-model="data.year"/></td>
-                <td><input type="text" name="country" ng-model="data.country"/></td>
-                <td><input type="text" name="duration" ng-model="data.duration"/></td>
-            </tr>
-            </tbody>
-        </table>
-        <input type="submit" id="submit" value="Submit"/>
+        <fieldset>
+            <legend>New Video</legend>
+            <div class="row">
+                <div class="col-lg-2"><label for="title">Title</label></div>
+                <div class="col-lg-4">
+                    <input type="text" class="form-control" id="title" ng-model="data.title" placeholder="Title" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2"><label for="year">Year</label></div>
+                <div class="col-lg-2">
+                    <input type="text" class="form-control" id="year" ng-model="data.year" placeholder="Year" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2"><label for="country">Country</label></div>
+                <div class="col-lg-3">
+                    <input type="text" class="form-control" id="country" ng-model="data.country" placeholder="Country" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2"><label for="duration">Duration</label></div>
+                <div class="col-lg-1">
+                    <input type="text" class="form-control" id="duration" ng-model="data.duration" placeholder="mins" required>
+                </div>
+            </div>
+      </fieldset>
+        <button type="submit" class="btn btn-default">Create</button>
     </form>
 </div>
