@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.UUID;
 
+import com.mlj.retrovideo.domain.video.AddStock;
 import com.mlj.retrovideo.domain.video.AddVideo;
 import com.mlj.retrovideo.domain.video.VideoBreakdown;
 import com.mlj.retrovideo.domain.video.VideoList;
@@ -49,6 +50,12 @@ public class VideoController {
     public void addVideo(@RequestBody VideoDto videoDto) {
         videoService.addVideo(new AddVideo(UUID.randomUUID().toString(), WordUtils.capitalizeFully(videoDto.getTitle()),
                 videoDto.getYear(), videoDto.getCountry(), videoDto.getDuration()));
+    }
+
+    @RequestMapping(method = POST, value = "/stock/add/{videoId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void addStock(@PathVariable String videoId) {
+        videoService.addStock(new AddStock(videoId, 1));
     }
 
     @RequestMapping(method = POST, value = "/upload")

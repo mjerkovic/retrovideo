@@ -40,4 +40,8 @@ public class VideoService {
         return elasticVideoRepository.totalsFor(category);
     }
 
+    public void addStock(AddStock addStock) {
+        commandGateway.send(addStock);
+    }
+
 }

@@ -76,6 +76,16 @@ app.controller('ListVideosCtrl', function($scope, $http) {
         });
     }
 
+    $scope.addStock = function(videoId) {
+        $http.post("/stock/add/" + videoId).success(function(data) {
+            $scope.videoList.videos.forEach(function(video) {
+                if (video.videoId == videoId) {
+                    video.quantity += 1;
+                }
+            });
+        });
+    }
+
     $http.get("/video").success(function(data) {
         $scope.videoList = data;
     });

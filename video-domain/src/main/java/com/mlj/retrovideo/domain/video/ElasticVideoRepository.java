@@ -17,6 +17,7 @@ import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.exists.IndicesExistsRequest;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.io.stream.OutputStreamStreamOutput;
@@ -46,9 +47,22 @@ public class ElasticVideoRepository {
 
     public void addVideo(VideoAdded event) {
         try {
-            addVideoToIndex(event);
+            addVideoToIndex(event.getVideoId(), createContent(event.getVideoId(), event.getTitle(), event.getYear(),
+                    event.getCountry(), event.getDuration(), 0));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void addStock(StockAdded event) {
+        GetResponse response = client.prepareGet("retrovideo", "videos", event.getVideoId()).execute().actionGet();
+        try {
+            VideoView video = objectMapper.readValue(response.sourceAsString(), VideoView.class);
+            video.setQuantity(video.getQuantity() + event.getQuantity());
+            addVideoToIndex(event.getVideoId(), createContent(video.getVideoId(), video.getTitle(), video.getYear(),
+                    video.getCountry(), video.getDuration(), video.getQuantity()));
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 
@@ -149,11 +163,15 @@ public class ElasticVideoRepository {
         }
     }
 
-    private void addVideoToIndex(VideoAdded event) throws IOException {
-        XContentBuilder builder = jsonBuilder().startObject().field("videoId", event.getVideoId())
-                .field("title", event.getTitle()).field("year", event.getYear()).field("country", event.getCountry())
-                .field("duration", event.getDuration()).endObject();
-        client.prepareIndex("retrovideo", "videos", event.getVideoId()).setSource(builder).setRefresh(true).execute().actionGet();
+    private void addVideoToIndex(String videoId, XContentBuilder builder) throws IOException {
+        client.prepareIndex("retrovideo", "videos", videoId).setSource(builder).setRefresh(true).execute().actionGet();
+    }
+
+    private XContentBuilder createContent(String videoId, String title, Integer year, String country, Integer duration,
+                                          int quantity) throws IOException {
+        return jsonBuilder().startObject().field("videoId", videoId)
+                .field("title", title).field("year", year).field("country", country)
+                .field("duration", duration).field("quantity", quantity).endObject();
     }
 
     private List<String> findAllVideoIds() {

@@ -1,5 +1,7 @@
 package com.mlj.retrovideo.domain.video;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.axonframework.commandhandling.annotation.CommandHandler;
 import org.axonframework.eventhandling.annotation.EventHandler;
 import org.axonframework.eventsourcing.annotation.AbstractAnnotatedAggregateRoot;
@@ -13,6 +15,7 @@ public class Video extends AbstractAnnotatedAggregateRoot {
     private Integer year;
     private String country;
     private Integer duration;
+    private AtomicInteger quantity = new AtomicInteger(0);
 
     public Video() {
     }
@@ -23,6 +26,11 @@ public class Video extends AbstractAnnotatedAggregateRoot {
                 command.getDuration()));
     }
 
+    @CommandHandler
+    public void addStock(AddStock command) {
+        apply(new StockAdded(command.getVideoId(), command.getQuantity()));
+    }
+
     @EventHandler
     public void on(VideoAdded event) {
         this.videoId = event.getVideoId();
@@ -30,6 +38,10 @@ public class Video extends AbstractAnnotatedAggregateRoot {
         this.year = event.getYear();
         this.country = event.getCountry();
         this.duration = event.getDuration();
+    }
+
+    public void on (StockAdded event) {
+        quantity.addAndGet(event.getQuantity());
     }
 
 }

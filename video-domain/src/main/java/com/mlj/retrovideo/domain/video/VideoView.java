@@ -7,6 +7,7 @@ public class VideoView {
     private int year;
     private String country;
     private int duration;
+    private int quantity;
 
     public String getVideoId() {
         return videoId;
@@ -46,6 +47,14 @@ public class VideoView {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
 }
