@@ -40,6 +40,7 @@ public class Video extends AbstractAnnotatedAggregateRoot {
         this.duration = event.getDuration();
     }
 
+    @EventHandler
     public void on (StockAdded event) {
         quantity.addAndGet(event.getQuantity());
     }
