@@ -54,8 +54,8 @@ public class VideoController {
 
     @RequestMapping(method = POST, value = "/stock/add/{videoId}")
     @ResponseStatus(HttpStatus.OK)
-    public void addStock(@PathVariable String videoId) {
-        videoService.addStock(new AddStock(videoId, 1));
+    public void addStock(@PathVariable String videoId, @RequestBody Integer qty) {
+        videoService.addStock(new AddStock(videoId, qty));
     }
 
     @RequestMapping(method = POST, value = "/upload")

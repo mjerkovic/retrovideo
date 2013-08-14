@@ -37,7 +37,7 @@
                     <td>{{ video.country }}</td>
                     <td>{{ video.duration }}</td>
                     <td>{{ video.quantity }}</td>
-                    <td><button ng-click="addStock(video.videoId)">Add Stock</button></td>
+                    <td><input type="number" ng-model="qtyToAdd[video.videoId]" min="1"></a><button ng-click="addStock(video.videoId)">Add Stock</button></td>
                 </tr>
             </tbody>
         </table>

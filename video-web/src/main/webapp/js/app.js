@@ -43,6 +43,8 @@ app.controller('NewVideoCtrl', function($scope, $http, $location) {
 
 app.controller('ListVideosCtrl', function($scope, $http) {
 
+    $scope.qtyToAdd = {};
+
     $scope.getNumber = function(num) {
         return new Array(num);
     }
@@ -77,13 +79,15 @@ app.controller('ListVideosCtrl', function($scope, $http) {
     }
 
     $scope.addStock = function(videoId) {
-        $http.post("/stock/add/" + videoId).success(function(data) {
-            $scope.videoList.videos.forEach(function(video) {
-                if (video.videoId == videoId) {
-                    video.quantity += 1;
-                }
+        var qty = $scope.qtyToAdd[videoId];
+        $http.post("/stock/add/" + videoId, qty)
+            .success(function(data) {
+                $scope.videoList.videos.forEach(function(video) {
+                    if (video.videoId == videoId) {
+                        video.quantity += qty;
+                    }
+                });
             });
-        });
     }
 
     $http.get("/video").success(function(data) {
