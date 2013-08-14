@@ -63,6 +63,7 @@ app.controller('ListVideosCtrl', function($scope, $http) {
             params: { 'searchKey': $scope.videoList.searchKey }
         };
         $http(config).success(function(data) {
+            $scope.currentPage = page;
             $scope.videoList = data;
         });
     }
@@ -83,9 +84,7 @@ app.controller('ListVideosCtrl', function($scope, $http) {
         $http.post("/stock/add/" + videoId, qty)
             .success(function(data) {
                 $scope.videoList.videos.forEach(function(video) {
-                    if (video.videoId == videoId) {
-                        video.quantity += qty;
-                    }
+                    $scope.newPage($scope.currentPage);
                 });
             });
     }
@@ -93,6 +92,7 @@ app.controller('ListVideosCtrl', function($scope, $http) {
     $http.get("/video").success(function(data) {
         $scope.videoList = data;
     });
+    $scope.currentPage = 1;
 
     $scope.category = "country";
     $scope.searchByType();
