@@ -12,6 +12,7 @@ import java.util.UUID;
 import com.mlj.retrovideo.domain.video.AddStock;
 import com.mlj.retrovideo.domain.video.AddVideo;
 import com.mlj.retrovideo.domain.video.VideoBreakdown;
+import com.mlj.retrovideo.domain.video.VideoDto;
 import com.mlj.retrovideo.domain.video.VideoList;
 import com.mlj.retrovideo.domain.video.VideoService;
 import com.mlj.retrovideo.domain.video.VideoView;

@@ -5,6 +5,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import com.mlj.retrovideo.domain.video.AddVideo;
+import com.mlj.retrovideo.domain.video.VideoDto;
 import com.mlj.retrovideo.domain.video.VideoService;
 import org.axonframework.eventhandling.replay.ReplayingCluster;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -30,7 +31,7 @@ public class VideoControllerTest {
 
     @Test
     public void itShouldDelegateToVideoServiceWhenAddingVideo() throws Exception {
-        controller.addVideo(new VideoDto("title", 2013, "Australia", 90));
+        controller.addVideo(new VideoDto("title", 2013, "Australia", 90, 1));
 
         verify(videoService).addVideo(any(AddVideo.class));
 

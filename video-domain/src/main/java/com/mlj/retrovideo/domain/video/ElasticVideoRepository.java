@@ -1,6 +1,7 @@
 package com.mlj.retrovideo.domain.video;
 
 import static com.google.common.collect.FluentIterable.from;
+import static java.lang.String.format;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static org.elasticsearch.search.facet.FacetBuilders.termsFacet;
 
@@ -55,11 +56,10 @@ public class ElasticVideoRepository {
     }
 
     public void addStock(StockAdded event) {
-        GetResponse response = client.prepareGet("retrovideo", "videos", event.getVideoId()).execute().actionGet();
         try {
-            VideoView video = objectMapper.readValue(response.sourceAsString(), VideoView.class);
+            VideoDto video = byId(event.getVideoId());
             video.setQuantity(video.getQuantity() + event.getQuantity());
-            addVideoToIndex(event.getVideoId(), createContent(video.getVideoId(), video.getTitle(), video.getYear(),
+            addVideoToIndex(event.getVideoId(), createContent(event.getVideoId(), video.getTitle(), video.getYear(),
                     video.getCountry(), video.getDuration(), video.getQuantity()));
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -73,6 +73,19 @@ public class ElasticVideoRepository {
 
     public VideoList all() {
         return videosForPage(1, searchFileRepository.createSearchFile(findAllVideoIds()));
+    }
+
+    public VideoDto byId(String videoId) {
+        GetResponse getResponse = client.prepareGet("retrovideo", "videos", videoId).execute().actionGet();
+        if (getResponse.exists()) {
+            try {
+                return objectMapper.readValue(getResponse.sourceAsString(), VideoDto.class);
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        } else {
+            throw new IllegalStateException(format("No video found with ID [%s]", videoId));
+        }
     }
 
     public VideoList videosForPage(int pageNo, String searchFile) {

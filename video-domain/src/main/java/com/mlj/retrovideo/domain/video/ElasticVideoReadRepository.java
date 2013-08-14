@@ -23,7 +23,7 @@ public class ElasticVideoReadRepository implements ReadRepository {
     }
 
     @Override
-    public VideoView byId(String videoId) {
+    public VideoDto byId(String videoId) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

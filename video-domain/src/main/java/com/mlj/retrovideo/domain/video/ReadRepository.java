@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ReadRepository {
 
-    VideoView byId(String videoId);
+    VideoDto byId(String videoId);
 
     List<VideoView> all();
 
