@@ -3,9 +3,11 @@ package com.mlj.retrovideo.domain.account;
 import org.axonframework.commandhandling.annotation.CommandHandler;
 import org.axonframework.eventhandling.annotation.EventHandler;
 import org.axonframework.eventsourcing.annotation.AbstractAnnotatedAggregateRoot;
+import org.axonframework.eventsourcing.annotation.AggregateIdentifier;
 
 public class Account extends AbstractAnnotatedAggregateRoot {
 
+    @AggregateIdentifier
     private String accountNo;
     private String title;
     private String firstName;

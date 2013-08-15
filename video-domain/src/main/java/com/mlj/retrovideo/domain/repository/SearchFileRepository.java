@@ -1,4 +1,4 @@
-package com.mlj.retrovideo.domain.video;
+package com.mlj.retrovideo.domain.repository;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static java.lang.String.format;
@@ -42,7 +42,7 @@ public class SearchFileRepository {
         return result;
     }
 
-    public String createSearchFile(List<String> videos) {
+    public String createSearchFile(List<String> ids) {
         FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
         File tempFile = null;
@@ -52,7 +52,7 @@ public class SearchFileRepository {
             tempFile = new File(searchFileName);
             fileWriter = new FileWriter(tempFile);
             bufferedWriter = new BufferedWriter(fileWriter);
-            for (String id : videos) {
+            for (String id : ids) {
                 bufferedWriter.write(id);
                 bufferedWriter.newLine();
             }

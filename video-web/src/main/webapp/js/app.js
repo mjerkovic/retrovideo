@@ -143,8 +143,11 @@ app.controller('InventoryCtrl', function($scope, $http) {
 
 app.controller('AccountCtrl', function($scope, $http) {
 
-    $scope.createAccount = function() {
-        alert($scope.account);
+    $scope.createAccount = function () {
+        $http.post('/account', $scope.account).success(function () {
+            $location.path("/videos");
+        });
+
     }
 
 });

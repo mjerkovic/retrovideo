@@ -15,6 +15,7 @@ public class AccountService {
     }
 
     public void createAccount(CreateAccount createAccount) {
+        commandGateway.send(createAccount);
     }
 
 }
