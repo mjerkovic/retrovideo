@@ -1,4 +1,4 @@
-package com.mlj.retrovideo.domain.video;
+package com.mlj.retrovideo.init;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.node.NodeBuilder;

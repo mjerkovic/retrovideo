@@ -1,7 +1,6 @@
 package com.mlj.retrovideo.domain.video;
 
 import static com.google.common.collect.FluentIterable.from;
-import static java.lang.String.format;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static org.elasticsearch.search.facet.FacetBuilders.termsFacet;
 
@@ -11,8 +10,8 @@ import java.util.Map;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
+import com.mlj.retrovideo.domain.repository.ElasticSearchRepository;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
@@ -25,20 +24,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ElasticVideoRepository {
-
-    private final Client client;
-    private final ObjectMapper objectMapper;
+public class ElasticVideoRepository extends ElasticSearchRepository<VideoDto> {
 
     @Autowired
     public ElasticVideoRepository(Client client, ObjectMapper objectMapper) {
-        this.client = client;
-        this.objectMapper = objectMapper;
+        super(client, objectMapper, "videos", VideoDto.class);
     }
 
     public void addVideo(VideoAdded event) {
         try {
-            addVideoToIndex(event.getVideoId(), createContent(event.getVideoId(), event.getTitle(), event.getYear(),
+            addToIndex(event.getVideoId(), createContent(event.getVideoId(), event.getTitle(), event.getYear(),
                     event.getCountry(), event.getDuration(), 0));
         } catch (IOException e) {
             e.printStackTrace();
@@ -49,7 +44,7 @@ public class ElasticVideoRepository {
         try {
             VideoDto video = byId(event.getVideoId());
             video.setQuantity(video.getQuantity() + event.getQuantity());
-            addVideoToIndex(event.getVideoId(), createContent(event.getVideoId(), video.getTitle(), video.getYear(),
+            addToIndex(event.getVideoId(), createContent(event.getVideoId(), video.getTitle(), video.getYear(),
                     video.getCountry(), video.getDuration(), video.getQuantity()));
         } catch (IOException e) {
             e.printStackTrace();
@@ -59,19 +54,6 @@ public class ElasticVideoRepository {
     public VideoBreakdown totalsFor(String category) {
         String adjustedCategory = (category.equals("country")) ? category + ".original" : category;
         return new VideoBreakdown(facetsFor(adjustedCategory));
-    }
-
-    public VideoDto byId(String videoId) {
-        GetResponse getResponse = client.prepareGet("retrovideo", "videos", videoId).execute().actionGet();
-        if (getResponse.exists()) {
-            try {
-                return objectMapper.readValue(getResponse.sourceAsString(), VideoDto.class);
-            } catch (IOException e) {
-                throw new IllegalStateException(e);
-            }
-        } else {
-            throw new IllegalStateException(format("No video found with ID [%s]", videoId));
-        }
     }
 
     public VideoList videosForPage(int pageNo) {
@@ -93,10 +75,6 @@ public class ElasticVideoRepository {
                 }
             }
         }).toImmutableList();
-    }
-
-    private void addVideoToIndex(String videoId, XContentBuilder builder) throws IOException {
-        client.prepareIndex("retrovideo", "videos", videoId).setSource(builder).setRefresh(true).execute().actionGet();
     }
 
     private XContentBuilder createContent(String videoId, String title, Integer year, String country, Integer duration,
@@ -123,4 +101,5 @@ public class ElasticVideoRepository {
         return (int) client.prepareCount("retrovideo").setTypes("videos")
                 .setQuery(QueryBuilders.matchAllQuery()).execute().actionGet().count();
     }
+
 }

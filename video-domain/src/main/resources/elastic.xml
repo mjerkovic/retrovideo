@@ -3,13 +3,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="elasticBootstrap" class="com.mlj.retrovideo.domain.video.ElasticBootstrap"/>
+    <bean id="elasticBootstrap" class="com.mlj.retrovideo.init.ElasticBootstrap"/>
 
     <bean id="objectMapper" class="org.codehaus.jackson.map.ObjectMapper"/>
 
     <bean id="elasticClient" factory-bean="elasticBootstrap" factory-method="getClient" depends-on="objectMapper"/>
 
-    <bean class="com.mlj.retrovideo.domain.repository.IndexIntialiser">
+    <bean class="com.mlj.retrovideo.init.IndexIntialiser">
         <constructor-arg ref="elasticClient"/>
     </bean>
 

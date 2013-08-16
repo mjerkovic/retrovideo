@@ -1,4 +1,4 @@
-package com.mlj.retrovideo.domain.repository;
+package com.mlj.retrovideo.init;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
