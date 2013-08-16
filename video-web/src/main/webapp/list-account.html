@@ -1,0 +1,32 @@
+<div class="container">
+    <legend>Accounts</legend>
+    <div class="row">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Title</th>
+                <th>Date of Birth</th>
+                <th>Street</th>
+                <th>City</th>
+                <th>Postcode</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="account in accountList.accounts">
+                    <td>{{ account.lastName }}</td>
+                    <td>{{ account.firstName }}</td>
+                    <td>{{ account.title }}</td>
+                    <td>{{ account.dateOfBirth }}</td>
+                    <td>{{ account.street }}</td>
+                    <td>{{ account.city }}</td>
+                    <td>{{ account.postcode }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <pagination class="pagination-sm" direction-links="false" num-pages="videoList.totalPages"
+                    current-page="videoList.page" on-select-page="newPage(page)">
+        </pagination>
+    </div>
+</div>

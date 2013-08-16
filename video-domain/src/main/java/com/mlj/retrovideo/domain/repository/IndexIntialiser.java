@@ -41,7 +41,9 @@ public class IndexIntialiser implements InitializingBean {
     private void createIndex(String index) {
         System.out.println("Creating index");
         CreateIndexResponse response = client.admin().indices().create(new CreateIndexRequest(index)
-                .mapping("videos", buildVideoMappings())).actionGet();
+                .mapping("videos", buildVideoMappings())
+                .mapping("accounts", buildAccountMappings()))
+                .actionGet();
         try {
             response.writeTo(new OutputStreamStreamOutput(System.out));
         } catch (IOException e) {
@@ -79,7 +81,22 @@ public class IndexIntialiser implements InitializingBean {
                     .endObject()
                     .endObject();
         } catch (IOException e) {
-            throw new IllegalStateException("Could not build index mappings", e);
+            throw new IllegalStateException("Could not build video index mappings", e);
+        }
+    }
+
+    private XContentBuilder buildAccountMappings() {
+        try {
+            return jsonBuilder()
+                    .startObject()
+                        .startObject("accounts")
+                            .startObject("properties")
+                                .startObject("lastName").field("type", "string").field("index", "analyzed").endObject()
+                            .endObject()
+                        .endObject()
+                    .endObject();
+        } catch (IOException e) {
+            throw new IllegalStateException("Could not build account index mappings", e);
         }
     }
 

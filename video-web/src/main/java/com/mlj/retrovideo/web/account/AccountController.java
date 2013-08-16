@@ -1,17 +1,22 @@
 package com.mlj.retrovideo.web.account;
 
 import static org.apache.commons.lang3.text.WordUtils.capitalizeFully;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.UUID;
 
+import com.mlj.retrovideo.domain.account.AccountList;
 import com.mlj.retrovideo.domain.account.AccountService;
 import com.mlj.retrovideo.domain.account.CreateAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
@@ -31,5 +36,18 @@ public class AccountController {
                 capitalizeFully(account.getFirstName()), capitalizeFully(account.getLastName()), account.getDateOfBirth(),
                 account.getStreet(), account.getCity(), account.getPostcode()));
     }
+
+    @RequestMapping(method = GET, value = "/account", produces = "application/json")
+    @ResponseBody
+    public AccountList allAccounts() {
+        return accountService.all();
+    }
+
+    @RequestMapping(method = GET, value = "/account/page/{pageNo}", produces = "application/json")
+    @ResponseBody
+    public AccountList accountsByPage(@PathVariable int pageNo, @RequestParam(value = "searchKey") String searchKey) {
+        return accountService.accountsForPage(pageNo, searchKey);
+    }
+
 
 }

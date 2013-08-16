@@ -8,14 +8,24 @@ import org.springframework.stereotype.Service;
 public class AccountService {
 
     private final CommandGateway commandGateway;
+    private final ElasticAccountRepository repository;
 
     @Autowired
-    public AccountService(CommandGateway commandGateway) {
+    public AccountService(CommandGateway commandGateway, ElasticAccountRepository repository) {
         this.commandGateway = commandGateway;
+        this.repository = repository;
     }
 
     public void createAccount(CreateAccount createAccount) {
         commandGateway.send(createAccount);
+    }
+
+    public AccountList all() {
+        return repository.all();
+    }
+
+    public AccountList accountsForPage(int pageNo, String searchKey) {
+        return repository.accountsForPage(pageNo, searchKey);
     }
 
 }

@@ -45,10 +45,6 @@ app.controller('ListVideosCtrl', function($scope, $http) {
 
     $scope.qtyToAdd = {};
 
-    $scope.getNumber = function(num) {
-        return new Array(num);
-    }
-
     $http.get("/employee/current").success(function(data) {
         $scope.employee = {
             firstname: data.firstname,
@@ -141,14 +137,31 @@ app.controller('InventoryCtrl', function($scope, $http) {
 
 });
 
-app.controller('AccountCtrl', function($scope, $http) {
+app.controller('AccountCtrl', function($scope, $http, $location) {
 
     $scope.createAccount = function () {
         $http.post('/account', $scope.account).success(function () {
-            $location.path("/videos");
+            $location.path("/accounts");
         });
 
     }
+
+    $scope.newPage = function(page) {
+        var config = {
+            method: 'GET',
+            url: '/account/page/' + page,
+            params: { 'searchKey': $scope.accountList.searchKey }
+        };
+        $http(config).success(function(data) {
+            $scope.currentPage = page;
+            $scope.accountList = data;
+        });
+    }
+
+    $http.get("/account").success(function(data) {
+        $scope.accountList = data;
+    });
+    $scope.currentPage = 1;
 
 });
 
@@ -158,6 +171,7 @@ app.config(['$routeProvider', function($routeProvider) {
         when('/newVideo', {templateUrl: 'new-video.html',   controller: 'NewVideoCtrl'}).
         when('/videos', {templateUrl: 'list-video.html', controller: 'ListVideosCtrl'}).
         when('/inventory', {templateUrl: 'inventory.html', controller: 'InventoryCtrl'}).
-        when('/accounts', {templateUrl: 'new-account.html', controller: 'AccountCtrl'}).
+        when('/newAccount', {templateUrl: 'new-account.html', controller: 'AccountCtrl'}).
+        when('/accounts', {templateUrl: 'list-account.html', controller: 'AccountCtrl'}).
         otherwise({redirectTo: '/videos'});
 }]);
