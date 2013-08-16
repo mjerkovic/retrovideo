@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Function;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Maps;
-import com.mlj.retrovideo.domain.repository.SearchFileRepository;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
@@ -31,13 +29,11 @@ public class ElasticVideoRepository {
 
     private final Client client;
     private final ObjectMapper objectMapper;
-    private final SearchFileRepository searchFileRepository;
 
     @Autowired
-    public ElasticVideoRepository(Client client, ObjectMapper objectMapper, SearchFileRepository searchFileRepository) {
+    public ElasticVideoRepository(Client client, ObjectMapper objectMapper) {
         this.client = client;
         this.objectMapper = objectMapper;
-        this.searchFileRepository = searchFileRepository;
     }
 
     public void addVideo(VideoAdded event) {
@@ -65,10 +61,6 @@ public class ElasticVideoRepository {
         return new VideoBreakdown(facetsFor(adjustedCategory));
     }
 
-    public VideoList all() {
-        return videosForPage(1, searchFileRepository.createSearchFile(findAllVideoIds()));
-    }
-
     public VideoDto byId(String videoId) {
         GetResponse getResponse = client.prepareGet("retrovideo", "videos", videoId).execute().actionGet();
         if (getResponse.exists()) {
@@ -82,17 +74,12 @@ public class ElasticVideoRepository {
         }
     }
 
-    public VideoList videosForPage(int pageNo, String searchFile) {
-        List<String> ids = searchFileRepository.getIdsFrom(searchFile);
-        SearchResponse searchResponse = searchByIdsForPage(ids, pageNo);
-        return new VideoList(pageNo, searchFile, ids.size(), videosFromResponse(searchResponse));
-    }
+    public VideoList videosForPage(int pageNo) {
+        SearchResponse searchResponse = client.prepareSearch("retrovideo").setTypes("videos")
+                .setQuery(QueryBuilders.matchAllQuery()).setSize(10).setFrom((pageNo - 1) * 10)
+                .addSort("title.sorted", SortOrder.ASC).execute().actionGet();
 
-    private SearchResponse searchByIdsForPage(List<String> ids, int pageNo) {
-        return client.prepareSearch("retrovideo").setTypes("videos")
-                    .setQuery(QueryBuilders.idsQuery("videos").addIds(idsForPage(ids, pageNo)))
-                    .addSort("title.sorted", SortOrder.ASC)
-                    .execute().actionGet();
+        return new VideoList(pageNo, searchResponse.hits().totalHits(), videosFromResponse(searchResponse));
     }
 
     private List<VideoView> videosFromResponse(SearchResponse searchResponse) {
@@ -108,12 +95,6 @@ public class ElasticVideoRepository {
         }).toImmutableList();
     }
 
-    private String[] idsForPage(List<String> ids, int pageNo) {
-        int min = (pageNo - 1) * 10;
-        int max = Math.min(min + 10, ids.size());
-        return ids.subList(min, max).toArray(new String[max - min]);
-    }
-
     private void addVideoToIndex(String videoId, XContentBuilder builder) throws IOException {
         client.prepareIndex("retrovideo", "videos", videoId).setSource(builder).setRefresh(true).execute().actionGet();
     }
@@ -123,18 +104,6 @@ public class ElasticVideoRepository {
         return jsonBuilder().startObject().field("videoId", videoId)
                 .field("title", title).field("year", year).field("country", country)
                 .field("duration", duration).field("quantity", quantity).endObject();
-    }
-
-    private List<String> findAllVideoIds() {
-        SearchResponse searchResponse = client.prepareSearch("retrovideo").setTypes("videos")
-                .setQuery(QueryBuilders.matchAllQuery()).setSize(numberOfVideosInIndex())
-                .addSort("title.sorted", SortOrder.ASC).execute().actionGet();
-        return FluentIterable.<SearchHit>from(searchResponse.hits()).transform(new Function<SearchHit, String>() {
-            @Override
-            public String apply(SearchHit searchHit) {
-                return searchHit.id();
-            }
-        }).toImmutableList();
     }
 
     private Map<String, Integer> facetsFor(String category) {

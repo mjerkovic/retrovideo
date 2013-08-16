@@ -23,13 +23,9 @@ public class VideoService {
         commandGateway.send(videoCommand);
     }
 
-    public VideoList all() {
-        return elasticVideoRepository.all();
-    }
-
-    public VideoList videosForPage(int pageNo, String searchKey) {
+    public VideoList videosForPage(int pageNo) {
         //return videoRepository.videosForPage();
-        return elasticVideoRepository.videosForPage(pageNo, searchKey);
+        return elasticVideoRepository.videosForPage(pageNo);
     }
 
     public VideoView byId(String videoId) {

@@ -55,8 +55,7 @@ app.controller('ListVideosCtrl', function($scope, $http) {
     $scope.newPage = function(page) {
         var config = {
             method: 'GET',
-            url: '/video/page/' + page,
-            params: { 'searchKey': $scope.videoList.searchKey }
+            url: '/video/page/' + page
         };
         $http(config).success(function(data) {
             $scope.currentPage = page;
@@ -85,23 +84,10 @@ app.controller('ListVideosCtrl', function($scope, $http) {
             });
     }
 
-    $http.get("/video").success(function(data) {
-        $scope.videoList = data;
-    });
-    $scope.currentPage = 1;
+    $scope.newPage(1);
 
     $scope.category = "country";
     $scope.searchByType();
-/*
-    $http.get("/video/stats/country").success(function(data) {
-        $scope.facets = [];
-        for (var key in data.facets) {
-            if (data.facets.hasOwnProperty(key)) {
-                $scope.facets.push({ "name": key, "count": data.facets[key] });
-            }
-        }
-    });
-*/
 
 });
 
@@ -143,14 +129,12 @@ app.controller('AccountCtrl', function($scope, $http, $location) {
         $http.post('/account', $scope.account).success(function () {
             $location.path("/accounts");
         });
-
     }
 
     $scope.newPage = function(page) {
         var config = {
             method: 'GET',
-            url: '/account/page/' + page,
-            params: { 'searchKey': $scope.accountList.searchKey }
+            url: '/account/page/' + page
         };
         $http(config).success(function(data) {
             $scope.currentPage = page;
@@ -158,10 +142,7 @@ app.controller('AccountCtrl', function($scope, $http, $location) {
         });
     }
 
-    $http.get("/account").success(function(data) {
-        $scope.accountList = data;
-    });
-    $scope.currentPage = 1;
+    $scope.newPage(1);
 
 });
 

@@ -6,16 +6,12 @@ public class VideoList {
 
     private final int page;
     private final long totalPages;
-    private final long totalVideos;
     private final List<VideoView> videos;
-    private final String searchKey;
 
-    public VideoList(int page, String searchKey, long totalVideos, List<VideoView> videos) {
+    public VideoList(int page, long totalVideos, List<VideoView> videos) {
         this.page = page;
-        this.totalVideos = totalVideos;
         this.totalPages = Math.round(Math.ceil((double) totalVideos / 10));
         this.videos = videos;
-        this.searchKey = searchKey;
     }
 
     public int getPage() {
@@ -28,14 +24,6 @@ public class VideoList {
 
     public List<VideoView> getVideos() {
         return videos;
-    }
-
-    public String getSearchKey() {
-        return searchKey;
-    }
-
-    public long getTotalVideos() {
-        return totalVideos;
     }
 
 }

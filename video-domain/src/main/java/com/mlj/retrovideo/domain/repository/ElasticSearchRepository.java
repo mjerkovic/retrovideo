@@ -18,12 +18,10 @@ public abstract class ElasticSearchRepository {
 
     protected final Client client;
     protected final ObjectMapper objectMapper;
-    protected final SearchFileRepository searchFileRepository;
 
-    public ElasticSearchRepository(Client client, ObjectMapper objectMapper, SearchFileRepository searchFileRepository) {
+    public ElasticSearchRepository(Client client, ObjectMapper objectMapper) {
         this.client = client;
         this.objectMapper = objectMapper;
-        this.searchFileRepository = searchFileRepository;
         prepareIndex("retrovideo");
     }
 

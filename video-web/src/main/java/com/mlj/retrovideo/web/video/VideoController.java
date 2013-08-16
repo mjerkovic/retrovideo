@@ -28,7 +28,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -87,16 +86,10 @@ public class VideoController {
         }
     }
 
-    @RequestMapping(method = GET, value = "/video", produces = "application/json")
-    @ResponseBody
-    public VideoList allVideos() {
-        return videoService.all();
-    }
-
     @RequestMapping(method = GET, value = "/video/page/{pageNo}", produces = "application/json")
     @ResponseBody
-    public VideoList videosByPage(@PathVariable int pageNo, @RequestParam(value = "searchKey") String searchKey) {
-        return videoService.videosForPage(pageNo, searchKey);
+    public VideoList videosByPage(@PathVariable int pageNo) {
+        return videoService.videosForPage(pageNo);
     }
 
     @RequestMapping(method = GET, value = "/video/stats/{category}", produces = "application/json")

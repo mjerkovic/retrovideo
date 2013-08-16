@@ -20,12 +20,8 @@ public class AccountService {
         commandGateway.send(createAccount);
     }
 
-    public AccountList all() {
-        return repository.all();
-    }
-
-    public AccountList accountsForPage(int pageNo, String searchKey) {
-        return repository.accountsForPage(pageNo, searchKey);
+    public AccountList accountsForPage(int pageNo) {
+        return repository.accountsForPage(pageNo);
     }
 
 }

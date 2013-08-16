@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -37,16 +36,10 @@ public class AccountController {
                 account.getStreet(), account.getCity(), account.getPostcode()));
     }
 
-    @RequestMapping(method = GET, value = "/account", produces = "application/json")
-    @ResponseBody
-    public AccountList allAccounts() {
-        return accountService.all();
-    }
-
     @RequestMapping(method = GET, value = "/account/page/{pageNo}", produces = "application/json")
     @ResponseBody
-    public AccountList accountsByPage(@PathVariable int pageNo, @RequestParam(value = "searchKey") String searchKey) {
-        return accountService.accountsForPage(pageNo, searchKey);
+    public AccountList accountsByPage(@PathVariable int pageNo) {
+        return accountService.accountsForPage(pageNo);
     }
 
 
