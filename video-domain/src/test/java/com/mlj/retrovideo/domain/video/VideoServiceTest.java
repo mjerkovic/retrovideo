@@ -1,6 +1,5 @@
 package com.mlj.retrovideo.domain.video;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -41,7 +40,7 @@ public class VideoServiceTest {
 
     @Test
     public void itShouldReturnAllVideos() throws Exception {
-        VideoList allVideos = new VideoList(1, 2l, newArrayList(mock(VideoView.class), mock(VideoView.class)));
+        //VideoList allVideos = new VideoList(1, 2l, newArrayList(mock(VideoView.class), mock(VideoView.class)));
         //when(videoRepository.videosForPage()).thenReturn(videosForPage);
         //when(elasticVideoRepository.videosForPage(1, "searchKey")).thenReturn(allVideos);
 

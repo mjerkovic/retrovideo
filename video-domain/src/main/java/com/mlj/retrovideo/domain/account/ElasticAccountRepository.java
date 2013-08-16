@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.google.common.base.Function;
+import com.mlj.retrovideo.domain.repository.ItemList;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
@@ -38,11 +39,11 @@ public class ElasticAccountRepository {
         }
     }
 
-    public AccountList accountsForPage(int pageNo) {
+    public ItemList<AccountView> accountsForPage(int pageNo) {
         SearchResponse searchResponse = client.prepareSearch("retrovideo").setTypes("accounts")
                 .setQuery(QueryBuilders.matchAllQuery()).setSize(10).setFrom((pageNo - 1) * 10)
                 .addSort("lastName", SortOrder.ASC).execute().actionGet();
-        return new AccountList(pageNo, searchResponse.hits().totalHits(), accountsFromResponse(searchResponse));
+        return new ItemList<AccountView>(pageNo, searchResponse.hits().totalHits(), accountsFromResponse(searchResponse));
     }
 
     private List<AccountView> accountsFromResponse(SearchResponse searchResponse) {

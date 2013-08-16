@@ -6,9 +6,10 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.UUID;
 
-import com.mlj.retrovideo.domain.account.AccountList;
 import com.mlj.retrovideo.domain.account.AccountService;
+import com.mlj.retrovideo.domain.account.AccountView;
 import com.mlj.retrovideo.domain.account.CreateAccount;
+import com.mlj.retrovideo.domain.repository.ItemList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,7 @@ public class AccountController {
 
     @RequestMapping(method = GET, value = "/account/page/{pageNo}", produces = "application/json")
     @ResponseBody
-    public AccountList accountsByPage(@PathVariable int pageNo) {
+    public ItemList<AccountView> accountsByPage(@PathVariable int pageNo) {
         return accountService.accountsForPage(pageNo);
     }
 

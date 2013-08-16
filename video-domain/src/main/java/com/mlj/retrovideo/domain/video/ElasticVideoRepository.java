@@ -11,6 +11,7 @@ import java.util.Map;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.mlj.retrovideo.domain.repository.ElasticSearchRepository;
+import com.mlj.retrovideo.domain.repository.ItemList;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
@@ -56,12 +57,12 @@ public class ElasticVideoRepository extends ElasticSearchRepository<VideoDto> {
         return new VideoBreakdown(facetsFor(adjustedCategory));
     }
 
-    public VideoList videosForPage(int pageNo) {
+    public ItemList<VideoView> videosForPage(int pageNo) {
         SearchResponse searchResponse = client.prepareSearch("retrovideo").setTypes("videos")
                 .setQuery(QueryBuilders.matchAllQuery()).setSize(10).setFrom((pageNo - 1) * 10)
                 .addSort("title.sorted", SortOrder.ASC).execute().actionGet();
 
-        return new VideoList(pageNo, searchResponse.hits().totalHits(), videosFromResponse(searchResponse));
+        return new ItemList<VideoView>(pageNo, searchResponse.hits().totalHits(), videosFromResponse(searchResponse));
     }
 
     private List<VideoView> videosFromResponse(SearchResponse searchResponse) {

@@ -1,5 +1,6 @@
 package com.mlj.retrovideo.domain.account;
 
+import com.mlj.retrovideo.domain.repository.ItemList;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class AccountService {
         commandGateway.send(createAccount);
     }
 
-    public AccountList accountsForPage(int pageNo) {
+    public ItemList<AccountView> accountsForPage(int pageNo) {
         return repository.accountsForPage(pageNo);
     }
 
