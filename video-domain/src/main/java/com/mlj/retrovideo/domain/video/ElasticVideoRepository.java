@@ -11,6 +11,7 @@ import java.util.Map;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.mlj.retrovideo.domain.repository.ElasticSearchRepository;
+import com.mlj.retrovideo.domain.repository.FacetResults;
 import com.mlj.retrovideo.domain.repository.ItemList;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.search.SearchResponse;
@@ -52,9 +53,9 @@ public class ElasticVideoRepository extends ElasticSearchRepository<VideoDto> {
         }
     }
 
-    public VideoBreakdown totalsFor(String category) {
+    public FacetResults totalsFor(String category) {
         String adjustedCategory = (category.equals("country")) ? category + ".original" : category;
-        return new VideoBreakdown(facetsFor(adjustedCategory));
+        return new FacetResults(facetsFor(adjustedCategory));
     }
 
     public ItemList<VideoView> videosForPage(int pageNo) {

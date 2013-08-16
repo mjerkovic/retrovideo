@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.UUID;
 
+import com.mlj.retrovideo.domain.repository.FacetResults;
 import com.mlj.retrovideo.domain.repository.ItemList;
 import com.mlj.retrovideo.domain.video.AddStock;
 import com.mlj.retrovideo.domain.video.AddVideo;
-import com.mlj.retrovideo.domain.video.VideoBreakdown;
 import com.mlj.retrovideo.domain.video.VideoDto;
 import com.mlj.retrovideo.domain.video.VideoService;
 import com.mlj.retrovideo.domain.video.VideoView;
@@ -94,7 +94,7 @@ public class VideoController {
 
     @RequestMapping(method = GET, value = "/video/stats/{category}", produces = "application/json")
     @ResponseBody
-    public VideoBreakdown totals(@PathVariable String category) {
+    public FacetResults totals(@PathVariable String category) {
         return videoService.totalsFor(category);
     }
 

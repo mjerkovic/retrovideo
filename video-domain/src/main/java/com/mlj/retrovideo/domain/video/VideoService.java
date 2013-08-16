@@ -1,5 +1,6 @@
 package com.mlj.retrovideo.domain.video;
 
+import com.mlj.retrovideo.domain.repository.FacetResults;
 import com.mlj.retrovideo.domain.repository.ItemList;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class VideoService {
         return videoRepository.byId(videoId);
     }
 
-    public VideoBreakdown totalsFor(String category) {
+    public FacetResults totalsFor(String category) {
         return elasticVideoRepository.totalsFor(category);
     }
 

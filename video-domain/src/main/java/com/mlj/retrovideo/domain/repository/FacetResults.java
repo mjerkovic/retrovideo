@@ -1,12 +1,12 @@
-package com.mlj.retrovideo.domain.video;
+package com.mlj.retrovideo.domain.repository;
 
 import java.util.Map;
 
-public class VideoBreakdown {
+public class FacetResults {
 
     private final Map<String, Integer> facets;
 
-    public VideoBreakdown(Map<String, Integer> facets) {
+    public FacetResults(Map<String, Integer> facets) {
         this.facets = facets;
     }
 
