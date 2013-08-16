@@ -10,7 +10,7 @@
     <import resource="video-persistence.xml"/>
     <import resource="elastic.xml"/>
 
-    <context:component-scan base-package="com.mlj.retrovideo.domain" />
+    <context:component-scan base-package="com.mlj.retrovideo" />
 
     <axon:annotation-config />
 
@@ -24,26 +24,26 @@
     </bean>
 
     <axon:event-sourcing-repository id="videoRepository"
-                                    aggregate-type="com.mlj.retrovideo.domain.video.Video"/>
+                                    aggregate-type="com.mlj.retrovideo.video.domain.Video"/>
 
     <axon:aggregate-command-handler id="videoCommandHandler"
-                                    aggregate-type="com.mlj.retrovideo.domain.video.Video"
+                                    aggregate-type="com.mlj.retrovideo.video.domain.Video"
                                     repository="videoRepository"
                                     command-bus="commandBus"/>
 
     <axon:event-sourcing-repository id="employeeRepository"
-                                    aggregate-type="com.mlj.retrovideo.domain.employee.Employee"/>
+                                    aggregate-type="com.mlj.retrovideo.employee.domain.Employee"/>
 
     <axon:aggregate-command-handler id="employeeCommandHandler"
-                                    aggregate-type="com.mlj.retrovideo.domain.employee.Employee"
+                                    aggregate-type="com.mlj.retrovideo.employee.domain.Employee"
                                     repository="employeeRepository"
                                     command-bus="commandBus"/>
 
     <axon:event-sourcing-repository id="accountRepository"
-                                    aggregate-type="com.mlj.retrovideo.domain.account.Account"/>
+                                    aggregate-type="com.mlj.retrovideo.account.domain.Account"/>
 
     <axon:aggregate-command-handler id="accountCommandHandler"
-                                    aggregate-type="com.mlj.retrovideo.domain.account.Account"
+                                    aggregate-type="com.mlj.retrovideo.account.domain.Account"
                                     repository="accountRepository"
                                     command-bus="commandBus"/>
 

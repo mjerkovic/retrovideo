@@ -4,8 +4,8 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import com.mlj.retrovideo.domain.employee.AddEmployee;
-import com.mlj.retrovideo.domain.employee.EmployeeService;
+import com.mlj.retrovideo.employee.command.AddEmployee;
+import com.mlj.retrovideo.employee.domain.EmployeeService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

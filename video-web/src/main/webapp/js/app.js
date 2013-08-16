@@ -45,12 +45,14 @@ app.controller('ListVideosCtrl', function($scope, $http) {
 
     $scope.qtyToAdd = {};
 
+/*
     $http.get("/employee/current").success(function(data) {
         $scope.employee = {
             firstname: data.firstname,
             lastname: data.lastname
         };
     });
+*/
 
     $scope.newPage = function(page) {
         var config = {
@@ -78,7 +80,7 @@ app.controller('ListVideosCtrl', function($scope, $http) {
         var qty = $scope.qtyToAdd[videoId];
         $http.post("/stock/add/" + videoId, qty)
             .success(function(data) {
-                $scope.videoList.videos.forEach(function(video) {
+                $scope.videoList.items.forEach(function(video) {
                     $scope.newPage($scope.currentPage);
                 });
             });

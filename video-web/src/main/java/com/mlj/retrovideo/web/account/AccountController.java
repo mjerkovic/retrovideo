@@ -6,10 +6,10 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.UUID;
 
-import com.mlj.retrovideo.domain.account.AccountService;
-import com.mlj.retrovideo.domain.account.AccountView;
-import com.mlj.retrovideo.domain.account.CreateAccount;
-import com.mlj.retrovideo.domain.repository.ItemList;
+import com.mlj.retrovideo.account.AccountView;
+import com.mlj.retrovideo.account.command.CreateAccount;
+import com.mlj.retrovideo.account.domain.AccountService;
+import com.mlj.retrovideo.repository.ItemList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

@@ -4,9 +4,9 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import com.mlj.retrovideo.domain.video.AddVideo;
-import com.mlj.retrovideo.domain.video.VideoDto;
-import com.mlj.retrovideo.domain.video.VideoService;
+import com.mlj.retrovideo.video.VideoDto;
+import com.mlj.retrovideo.video.command.AddVideo;
+import com.mlj.retrovideo.video.domain.VideoService;
 import org.axonframework.eventhandling.replay.ReplayingCluster;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;

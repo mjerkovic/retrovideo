@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import com.mlj.retrovideo.domain.employee.AuthenticationFailedException;
-import com.mlj.retrovideo.domain.employee.EmployeeService;
-import com.mlj.retrovideo.domain.employee.EmployeeView;
+import com.mlj.retrovideo.employee.AuthenticationFailedException;
+import com.mlj.retrovideo.employee.EmployeeView;
+import com.mlj.retrovideo.employee.domain.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

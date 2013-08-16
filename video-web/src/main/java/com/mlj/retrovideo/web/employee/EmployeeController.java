@@ -7,9 +7,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
-import com.mlj.retrovideo.domain.employee.AddEmployee;
-import com.mlj.retrovideo.domain.employee.EmployeeService;
-import com.mlj.retrovideo.domain.employee.EmployeeView;
+import com.mlj.retrovideo.employee.EmployeeView;
+import com.mlj.retrovideo.employee.command.AddEmployee;
+import com.mlj.retrovideo.employee.domain.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
