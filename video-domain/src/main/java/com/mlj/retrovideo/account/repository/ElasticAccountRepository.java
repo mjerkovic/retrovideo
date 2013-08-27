@@ -48,6 +48,16 @@ public class ElasticAccountRepository {
         return new ItemList<AccountView>(pageNo, searchResponse.hits().totalHits(), accountsFromResponse(searchResponse));
     }
 
+    public AccountView getAccount(String accountNo) {
+        SearchResponse searchResponse = client.prepareSearch("retrovideo").setTypes("accounts")
+                .setQuery(QueryBuilders.idsQuery("accounts").ids(accountNo)).execute().actionGet();
+        try {
+            return objectMapper.readValue(searchResponse.hits().getAt(0).sourceAsString(), AccountView.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private List<AccountView> accountsFromResponse(SearchResponse searchResponse) {
         return from(searchResponse.hits()).transform(new Function<SearchHit, AccountView>() {
             @Override

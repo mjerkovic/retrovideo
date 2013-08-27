@@ -30,6 +30,20 @@ app.directive('fileupload', function () {
     };
 });
 
+app.factory('accountHolder', function() {
+    var accountNo;
+
+    return {
+        setAccount: function(acct) {
+            accountNo = acct;
+        },
+
+        getAccount: function() {
+            return accountNo;
+        }
+    }
+})
+
 app.controller('NewVideoCtrl', function($scope, $http, $location) {
 
     $scope.submit = function() {
@@ -125,7 +139,7 @@ app.controller('InventoryCtrl', function($scope, $http) {
 
 });
 
-app.controller('AccountCtrl', function($scope, $http, $location) {
+app.controller('AccountCtrl', function($scope, $http, $location, accountHolder) {
 
     $scope.createAccount = function () {
         $http.post('/account', $scope.account).success(function () {
@@ -144,7 +158,20 @@ app.controller('AccountCtrl', function($scope, $http, $location) {
         });
     }
 
+    $scope.newRental = function(accountNo) {
+        accountHolder.setAccount(accountNo);
+        $location.path('/newRental');
+    }
+
     $scope.newPage(1);
+
+});
+
+app.controller('RentalCtrl', function($scope, $http, accountHolder) {
+
+    $http.get('/account/' + accountHolder.getAccount()).success(function(data) {
+        $scope.account = data;
+    });
 
 });
 
@@ -156,5 +183,6 @@ app.config(['$routeProvider', function($routeProvider) {
         when('/inventory', {templateUrl: 'inventory.html', controller: 'InventoryCtrl'}).
         when('/newAccount', {templateUrl: 'new-account.html', controller: 'AccountCtrl'}).
         when('/accounts', {templateUrl: 'list-account.html', controller: 'AccountCtrl'}).
+        when('/newRental', {templateUrl: 'new-rental.html', controller: 'RentalCtrl'}).
         otherwise({redirectTo: '/videos'});
 }]);

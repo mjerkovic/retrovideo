@@ -14,7 +14,7 @@
             </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="account in accountList.items">
+                <tr ng-repeat="account in accountList.items" ng-click="newRental(account.accountNo)">
                     <td>{{ account.lastName }}</td>
                     <td>{{ account.firstName }}</td>
                     <td>{{ account.title }}</td>

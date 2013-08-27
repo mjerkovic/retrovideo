@@ -43,5 +43,10 @@ public class AccountController {
         return accountService.accountsForPage(pageNo);
     }
 
+    @RequestMapping(method = GET, value = "/account/{accountNo}", produces = "application/json")
+    @ResponseBody
+    public AccountView getAccount(@PathVariable String accountNo) {
+        return accountService.getAccount(accountNo);
+    }
 
 }

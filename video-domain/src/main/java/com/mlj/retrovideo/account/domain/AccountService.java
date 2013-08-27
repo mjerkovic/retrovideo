@@ -28,4 +28,8 @@ public class AccountService {
         return repository.accountsForPage(pageNo);
     }
 
+    public AccountView getAccount(String accountNo) {
+        return repository.getAccount(accountNo);
+    }
+
 }
